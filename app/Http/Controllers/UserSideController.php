@@ -10,7 +10,7 @@ class UserSideController extends Controller
 {
     public function indexHome()
     {
-        $products = Products::with('images')->limit(5)->get();
+        $products = Products::with('images')->limit(3)->get();
         // dd($products);
         $activeBanners = Banners::where('is_active', true)->get();
         $banners = Banners::orderBy('order')->get();
