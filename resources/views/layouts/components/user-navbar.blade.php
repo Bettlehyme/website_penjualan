@@ -26,15 +26,7 @@
                 
 
             </ul>
-            <!-- online builder btn  -->
-            <!-- <li class="flex items-center">
-                  <a
-                    class="leading-pro ease-in text-blue-500 border-blue-500 text-xs tracking-tight-rem bg-150 bg-x-25 rounded-3.5xl hover:border-blue-500 hover:-translate-y-px hover:text-blue-500 active:hover:border-blue-500 active:hover:-translate-y-px active:hover:text-blue-500 active:opacity-85 active:shadow-xs active:bg-blue-500 active:border-blue-500 mr-2 mb-0 inline-block cursor-pointer border border-solid bg-transparent py-2 px-8 text-center align-middle font-bold uppercase shadow-none transition-all hover:bg-transparent hover:opacity-75 hover:shadow-none active:scale-100 active:text-white active:hover:bg-transparent active:hover:opacity-75 active:hover:shadow-none"
-                    target="_blank"
-                    href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard&amp;_ga=2.76518741.1192788655.1647724933-1242940210.1644448053"
-                    >Online Builder</a
-                  >
-                </li> -->
+          
             <ul class="hidden pl-0 mb-0 list-none lg:block lg:flex-row">
                 <li>
                     <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20product" target="_blank"

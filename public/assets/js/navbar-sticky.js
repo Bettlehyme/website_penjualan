@@ -1,46 +1,48 @@
-// Navbar stick on scroll ++ styles
+document.addEventListener("DOMContentLoaded", function () {
+  const navbar = document.querySelector("[navbar-main]");
+  if (!navbar) return;
 
-var navbar = document.querySelector("[navbar-main]");
-const white_elements = navbar.querySelectorAll(".text-white");
-const white_bg_elements = navbar.querySelectorAll("[sidenav-trigger] i.bg-white");
-const white_before_elements = navbar.querySelectorAll(".before\\:text-white");
+  const whiteElements = navbar.querySelectorAll(".text-white");
+  const whiteBgElements = navbar.querySelectorAll("[sidenav-trigger] i.bg-white");
+  const whiteBeforeElements = navbar.querySelectorAll(".before\\:text-white");
 
+  function stickyNav() {
+    const scrolled = window.scrollY >= 5;
 
-window.onscroll = function () {
-  let blur = navbar.getAttribute("navbar-scroll");
-  if (blur == "true") stickyNav();
-};
+    // Navbar container
+    navbar.classList.toggle("sticky", scrolled);
+    navbar.classList.toggle("top-[1%]", scrolled);
+    navbar.classList.toggle("backdrop-saturate-200", scrolled);
+    navbar.classList.toggle("dark:bg-slate-850/80", scrolled);
+    navbar.classList.toggle("dark:shadow-dark-blur", scrolled);
+    navbar.classList.toggle("backdrop-blur-2xl", scrolled);
+    navbar.classList.toggle("bg-[hsla(0,0%,100%,0.8)]", scrolled);
+    navbar.classList.toggle("shadow-blur", scrolled);
+    navbar.classList.toggle("z-110", scrolled);
 
-function stickyNav() {
-  if (window.scrollY >= 5) {
-    navbar.classList.add("sticky", "top-[1%]", "backdrop-saturate-200", "dark:bg-slate-850/80", "dark:shadow-dark-blur", "backdrop-blur-2xl", "bg-[hsla(0,0%,100%,0.8)]", "shadow-blur", "z-110");
-    white_elements.forEach(element => {
-      element.classList.remove("text-white")
-      element.classList.add("dark:text-white")
+    // Text color switch
+    whiteElements.forEach(el => {
+      el.classList.toggle("text-white", !scrolled);
+      el.classList.toggle("dark:text-white", scrolled);
     });
-    white_bg_elements.forEach(element => {
-      element.classList.remove("bg-white")
-      element.classList.add("dark:bg-white")
-      element.classList.add("bg-slate-500")
+
+    // Background color switch (icons/buttons)
+    whiteBgElements.forEach(el => {
+      el.classList.toggle("bg-white", !scrolled);
+      el.classList.toggle("dark:bg-white", scrolled);
+      el.classList.toggle("bg-slate-500", scrolled);
     });
-    white_before_elements.forEach(element => {
-      element.classList.add("dark:before:text-white")
-      element.classList.remove("before:text-white")
-    });
-  } else {
-    navbar.classList.remove("sticky", "top-[1%]", "backdrop-saturate-200", "dark:bg-slate-850/80", "dark:shadow-dark-blur", "backdrop-blur-2xl", "bg-[hsla(0,0%,100%,0.8)]", "shadow-blur", "z-110");
-    white_elements.forEach(element => {
-      element.classList.add("text-white")
-      element.classList.remove("dark:text-white")
-    });
-    white_bg_elements.forEach(element => {
-      element.classList.add("bg-white")
-      element.classList.remove("dark:bg-white")
-      element.classList.remove("bg-slate-500")
-    });
-    white_before_elements.forEach(element => {
-      element.classList.remove("dark:before:text-white")
-      element.classList.add("before:text-white")
+
+    // ::before pseudo-element text
+    whiteBeforeElements.forEach(el => {
+      el.classList.toggle("before:text-white", !scrolled);
+      el.classList.toggle("dark:before:text-white", scrolled);
     });
   }
-}
+
+  // Run on load + on scroll
+  if (navbar.getAttribute("navbar-scroll") === "true") {
+    window.addEventListener("scroll", stickyNav);
+    stickyNav();
+  }
+});
