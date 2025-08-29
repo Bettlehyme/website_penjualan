@@ -36,7 +36,6 @@ class BannersController extends Controller
             $request->validate([
                 'banners.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
                 'banners.*.title' => 'nullable|string|max:255',
-                'banners.*.link'  => 'nullable|url|max:255',
                 'banners.*.order' => 'nullable|integer',
                 'banners.*.is_active' => 'nullable|boolean',
             ]);
@@ -52,7 +51,6 @@ class BannersController extends Controller
                 Banners::create([
                     'title' => $bannerData['title'] ?? null,
                     'image' => $path,
-                    'link'  => $bannerData['link'] ?? null,
                     'order' => $bannerData['order'] ?? 0,
                     'is_active' => $bannerData['is_active'] ?? true,
                 ]);

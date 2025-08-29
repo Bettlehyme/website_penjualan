@@ -13,7 +13,6 @@ class Banners extends Model
     protected $fillable = [
         'title',
         'image',
-        'link',
         'order',
         'is_active'
     ];
