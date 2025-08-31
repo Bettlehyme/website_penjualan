@@ -71,8 +71,8 @@
                 @endauth
 
                 {{-- Mobile toggle --}}
-                <li class="flex items-center pl-4 xl:hidden">
-                    <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand"
+                <li class="flex items-center pl-4 xl:hidden ">
+                    <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand "
                         sidenav-trigger>
                         <div class="w-4.5 overflow-hidden">
                             <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>

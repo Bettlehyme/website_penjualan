@@ -16,10 +16,12 @@
 
     <!-- Popper -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Main Styling -->
     <link href="./assets/css/argon-dashboard-tailwind.css?v=4.0.1" rel="stylesheet" />
+    <script src="./assets/js/sidenav-burger.js"></script>
 
 </head>
 
