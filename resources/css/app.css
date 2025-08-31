@@ -9,3 +9,8 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+.zoomable {
+  transition: transform 0.2s ease;
+  touch-action: none; /* required for custom gestures */
+}

@@ -15,15 +15,18 @@
                         class="relative w-full w-full  overflow-hidden rounded-2xl bg-gray-100 flex items-center justify-center">
 
                         <!-- Images Wrapper -->
-                        <div slider class="relative w-full aspect-square overflow-hidden rounded-2xl">
+                        <div slider class="relative w-full aspect-square overflow-hidden rounded-2xl   ">
                             @foreach ($product->images as $image)
-                                <div slide class="absolute w-full transition-all duration-500">
-                                    <img class="object-cover  w-full" src="{{ asset('storage/' . $image->path) }}"
-                                        alt="banner image" />
-
-
+                                <div slide class="absolute w-full h-full transition-all duration-500">
+                                    <img class="w-full h-full object-cover cursor-pointer"
+                                        src="{{ asset('storage/' . $image->path) }}" alt="banner image"
+                                        onclick="openImageModal(this)" />
                                 </div>
                             @endforeach
+                            <!-- Fullscreen Image Modal -->
+                            <div id="imageModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+                                <img id="modalImg" class="zoomable max-w-[90%] max-h-[90%] rounded-lg shadow-lg" />
+                            </div>
                             <!-- Control buttons -->
                             <div class="absolute bottom-0 w-full right-0 flex z-20">
                                 <div
@@ -157,7 +160,6 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        
             const wrapper = document.getElementById("desc-wrapper");
             const text = document.getElementById("desc-text");
             const btn = document.getElementById("desc-toggle");
@@ -190,8 +192,6 @@
             }
         });
 
-
-
         function shareProduct() {
             if (navigator.share) {
                 navigator.share({
@@ -203,6 +203,90 @@
                 alert("Sharing not supported on this browser. Copy the link manually.");
             }
         }
+
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+
+        function openImageModal(img) {
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            modalImg.src = img.src;
+
+            resetTransform();
+        }
+
+        // close modal on background tap
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) { // only close if background clicked
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+                resetTransform();
+            }
+        });
+
+        // ===== Pinch & Pan =====
+        let scale = 1,
+            lastScale = 1;
+        let posX = 0,
+            posY = 0,
+            lastX = 0,
+            lastY = 0;
+        let startX = 0,
+            startY = 0;
+        let active = false;
+
+        function resetTransform() {
+            scale = 1;
+            lastScale = 1;
+            posX = 0;
+            posY = 0;
+            lastX = 0;
+            lastY = 0;
+            modalImg.style.transform = "translate(0px,0px) scale(1)";
+        }
+
+        modalImg.addEventListener("touchstart", e => {
+            if (e.touches.length === 2) {
+                lastScale = scale;
+            } else if (e.touches.length === 1) {
+                active = true;
+                startX = e.touches[0].pageX - lastX;
+                startY = e.touches[0].pageY - lastY;
+            }
+        });
+
+        modalImg.addEventListener("touchmove", e => {
+            e.preventDefault();
+
+            if (e.touches.length === 2) {
+                // pinch
+                let dx = e.touches[0].pageX - e.touches[1].pageX;
+                let dy = e.touches[0].pageY - e.touches[1].pageY;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (!modalImg.initialDistance) {
+                    modalImg.initialDistance = distance;
+                } else {
+                    scale = Math.min(Math.max(lastScale * (distance / modalImg.initialDistance), 1), 4);
+                }
+            } else if (e.touches.length === 1 && active) {
+                // pan
+                posX = e.touches[0].pageX - startX;
+                posY = e.touches[0].pageY - startY;
+            }
+
+            modalImg.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+        });
+
+        modalImg.addEventListener("touchend", e => {
+            if (e.touches.length === 0) {
+                active = false;
+                lastX = posX;
+                lastY = posY;
+                lastScale = scale;
+                modalImg.initialDistance = null;
+            }
+        });
     </script>
 
 
