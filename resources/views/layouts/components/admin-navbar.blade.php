@@ -16,6 +16,12 @@
                         Banners
                     @elseif (Route::is('product.index'))
                         Product
+                    @elseif (Route::is('article.index'))
+                        Article
+                    @elseif (Route::is('gallery.index'))
+                        Gallery
+                    @elseif (Route::is('site-settings.index'))
+                        Site Settings
                     @elseif (Route::is('user.index'))
                         User
                     @endif
@@ -30,6 +36,12 @@
                     Banners
                 @elseif (Route::is('product.index'))
                     Product
+                @elseif (Route::is('article.index'))
+                    Article
+                @elseif (Route::is('gallery.index'))
+                    Gallery
+                @elseif (Route::is('site-settings.index'))
+                    Site Settings
                 @elseif (Route::is('user.index'))
                     User
                 @endif
@@ -54,7 +66,7 @@
                 @auth
                     <li class="flex items-center ">
                         <span
-                            class="block px-5 py-1 text-sm font-semibold text-blue-500 bg-white rounded-xl transition-all ease-nav-brand">
+                            class="block px-5 py-1 text-sm font-semibold text-purple-500 bg-white rounded-xl transition-all ease-nav-brand">
                             <i class="fa fa-user sm:mr-1"></i>
                             <span class="hidden sm:inline">{{ Auth::user()->name }}</span>
                         </span>

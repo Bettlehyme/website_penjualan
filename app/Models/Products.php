@@ -16,10 +16,12 @@ class Products extends Model
     protected $keyType = 'int';
     protected $fillable = [
         'title',
+        'subtitle',
         'description',
         'price',
         'brand',
         'model',
+        'articleimage',
         'year',
     ];
 

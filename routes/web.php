@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\SignInController;
 use App\Http\Controllers\BannersController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SiteSettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSideController;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [UserSideController::class, 'indexHome'])->name('home');
 Route::get('/product-page/{id}', [UserSideController::class, 'productPage'])->name('product-page');
 Route::get('/products-catalogue', [UserSideController::class, 'indexProducts'])->name('products-catalogue');
+Route::get('/article-list', [UserSideController::class, 'indexArticle'])->name('articles-list');
+Route::get('/article-page/{id}', [UserSideController::class, 'articlePage'])->name('article-page');
+Route::get('/price-list', [UserSideController::class, 'indexPriceList'])->name('price-list');
+Route::get('/gallery-list', [UserSideController::class, 'indexGallery'])->name('gallery-list');
 
 Route::get('/sign-in', [SignInController::class, 'showLoginForm'])->name('login');
 Route::post('/sign-in', [SignInController::class, 'login'])->name('login.attempt');
@@ -22,5 +29,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/banners', BannersController::class)->names('banners');
     Route::resource('/product', ProductsController::class)->names('product');
+    Route::resource('/article', ArticleController::class)->names('article');
+    Route::resource('/gallery', GaleriController::class)->names('gallery');
+    Route::get('/site-settings', [SiteSettingsController::class, 'index'])->name('site-settings.index');
+    Route::put('/site-settings', [SiteSettingsController::class, 'update'])->name('site-settings.update');
+
     Route::resource('/user', UserController::class)->names('user');
 });

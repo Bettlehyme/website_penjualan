@@ -10,72 +10,39 @@
             <div class="flex flex-col md:flex-col lg:flex-col">
 
                 <div class=" p-4 text-center">
-                    <h1 class=" md:text-2xl lg:text-4xl font-bold text-gray-900">{{ $product->title }}</h1>
+                    <h1 class=" md:text-2xl lg:text-4xl font-bold text-gray-900">{{ $article->title }}</h1>
                 </div>
-                <div class=" max-w-full top-1 aspect-[4/3] md:aspect-[8/3] lg:aspect-[8/3] mr-5 mb-5">
-                    <div
-                        class="relative w-full w-full  overflow-hidden rounded-2xl bg-gray-100 flex items-center justify-center">
-
-                        <!-- Images Wrapper -->
-                        <div slider
-                            class="relative w-full aspect-[4/3] md:aspect-[8/3] lg:aspect-[8/3]  overflow-hidden rounded-2xl   ">
-                            @foreach ($product->images as $image)
-                                <div slide class="absolute w-full  h-full transition-all duration-500">
-                                    <img class="w-full h-full overflow-hidden object-cover cursor-pointer"
-                                        src="{{ asset('storage/' . $image->path) }}" alt="banner image"
-                                        onclick="openImageModal(this)" />
-                                </div>
-                            @endforeach
-                            <!-- Fullscreen Image Modal -->
-                            <div id="imageModal" class="fixed inset-0 w-[100vw] h-[100vh]  bg-black/80 hidden items-center justify-center z-50">
-                                <img id="modalImg" class="zoomable max-w-[90%] max-h-[90%] rounded-lg shadow-lg" />
-                            </div>
-                            <!-- Control buttons -->
-                            <div class="absolute bottom-0 w-full right-0 flex z-20">
-                                {{-- <div
-                                    class="bg-purple-500 text-white w-full text-center font-semibold py-2 px-3 sm:px-4 hover:bg-purple-700 transition-colors">
-                                    <span class="text-xl sm:text-4xl md:text-4xl lg:text-3xl">
-                                        {{ rupiah($product->price) }}
-                                    </span>
-                                </div> --}}
-                            </div>
-                            <button btn-prev
-                                class="absolute z-10 w-10 h-10 left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full fa-solid fa-chevron-left active:scale-110"></button>
-                            <button btn-next
-                                class="absolute z-10 w-10 h-10 right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full fa-solid fa-chevron-right active:scale-110 "></button>
-                        </div>
-                    </div>
-                </div>
+                
 
 
-                <!-- Right: Product Details -->
+                <!-- Right: article Details -->
                 <div class="grid grid-cols-1 w-full sm:grid-cols-2 lg:grid-cols-3 ">
                     <!-- Subtitle -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 text-center">
-                        <h2 class="text-xl">{{ $product->subtitle }}</h2>
+                        <h2 class="text-xl">{{ $article->subtitle }}</h2>
                     </div>
                     <!-- Desc -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 ">
-                        <p>{{ $product->description }}</p>
+                        <p>{{ $article->description }}</p>
                     </div>
                     <!-- Image -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 ">
-                        <img src="{{ asset('storage/' . $product->articleimage) }}" alt="Article Image"
+                        <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image"
                             class="w-full h-auto rounded-lg shadow-lg">
 
                     </div>
                     <!-- Actions -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 mt-10">
-                        <button onclick="shareProduct()"
+                        <button onclick="sharearticle()"
                             class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition text-center flex items-center justify-center transition-all ease-in hover:-translate-y-px hover:shadow-xl">
                             <i class="fa-solid fa-share-nodes mr-2"></i>
                             Share
                         </button>
-                        <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20product"
+                        <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20article"
                             class="bg-purple-500 text-white px-4 py-2 rounded-lg transition text-center transition-all ease-in hover:-translate-y-px hover:shadow-xl">
                             <i class="fa-brands fa-whatsapp mr-2"></i>
                             Konsultasi
@@ -93,7 +60,7 @@
                 </div>
             </div>
             <div class="w-full max-w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 mt-6">
-                @foreach ($products as $p)
+                @foreach ($articles as $p)
                     <div
                         class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
 
@@ -116,11 +83,11 @@
                                             {{ rupiah($p->price) }}</span>
                                     </div>
                                 </div> --}}
-                            <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
+                            <img src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->title }}"
                                 class="w-full aspect-video lg:aspect-video  object-cover">
 
                             <!-- Hover overlay -->
-                            <a href="{{ route('product-page', encrypt($p->product_id)) }}"
+                            <a href="{{ route('article-page', encrypt($p->article_id)) }}"
                                 class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                 View Details
                             </a>
@@ -169,11 +136,11 @@
             }
         });
 
-        function shareProduct() {
+        function sharearticle() {
             if (navigator.share) {
                 navigator.share({
-                    title: "{{ $product->title }}",
-                    text: "Check out this product: {{ $product->title }}",
+                    title: "{{ $article->title }}",
+                    text: "Check out this article: {{ $article->title }}",
                     url: window.location.href
                 });
             } else {

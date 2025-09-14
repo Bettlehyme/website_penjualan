@@ -9,7 +9,8 @@ expand_trigger.addEventListener("click", function () {
   elements = navbar_sign_in_up.querySelectorAll("a");
   if (navbar_sign_in_up.classList.contains("lg-max:max-h-0")) {
     navbar_sign_in_up.classList.remove("lg-max:max-h-0");
-    navbar_sign_in_up.classList.add("lg-max:max-h-54");
+    navbar_sign_in_up.classList.add("lg-max:max-h-60");
+
     setTimeout(function () {
       elements.forEach((element) => {
         element.classList.remove("lg-max:opacity-0");
@@ -21,7 +22,7 @@ expand_trigger.addEventListener("click", function () {
         element.classList.add("lg-max:opacity-0");
       });
     }, 100);
-    navbar_sign_in_up.classList.remove("lg-max:max-h-54");
+    navbar_sign_in_up.classList.remove("lg-max:max-h-60");
     navbar_sign_in_up.classList.add("lg-max:max-h-0");
   }
   bar1.classList.toggle("rotate-45");

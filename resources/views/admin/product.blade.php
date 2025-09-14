@@ -56,9 +56,11 @@
                                             @foreach ($products as $product)
                                                 <tr class="cursor-pointer hover:bg-slate-100" onclick="showProduct(this)"
                                                     data-id="{{ $product->product_id }}" data-title="{{ $product->title }}"
+                                                    data-subtitle="{{ $product->subtitle }}"
                                                     data-description="{{ $product->description }}"
                                                     data-brand="{{ $product->brand }}" data-model="{{ $product->model }}"
                                                     data-year="{{ $product->year }}" data-price="{{ $product->price }}"
+                                                    data-articleimage="{{ $product->articleimage }}"
                                                     data-images="{{ $product->images->pluck('path')->implode(',') }}">
                                                     <td
                                                         class="px-6 p-2 align-middle border-b dark:border-white/40 whitespace-nowrap">
@@ -129,23 +131,28 @@
             <div class="w-full max-w-full px-3 mt-6 shrink-0 md:w-4/12 md:flex-0 md:mt-0">
                 <div id="product-card"
                     class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl rounded-2xl bg-clip-border overflow-hidden">
-
+                    <div class="p-6 text-center">
+                        <h5 id="preview-title" class="text-xl font-bold text-slate-800">Select a product</h5>
+                    </div>
                     <!-- Full-width Square Main Image -->
                     <div class="relative w-full" style="padding-top: 100%;">
                         <img id="preview-main-image" class="absolute top-0 left-0 w-full h-full object-cover"
-                            src="{{ asset('assets/img/default-product.jpg') }}" alt="product image">
+                            src="{{ asset('assets/img/home-image-1.jpeg') }}" alt="product image">
                     </div>
 
                     <!-- Thumbnails / carousel -->
                     <div id="preview-thumbnails" class="flex justify-center mt-4 space-x-2">
-                        <img src="{{ asset('assets/img/default-product.jpg') }}"
+                        <img src="{{ asset('assets/img/home-image-1.jpeg') }}"
                             class="h-12 w-12 rounded border border-slate-300 object-cover" alt="placeholder">
                     </div>
 
                     <div class="p-6 text-center">
-                        <h5 id="preview-title" class="text-xl font-bold text-slate-800">Select a product</h5>
+                        <h5 id="preview-subtitle" class="text-xl font-bold text-slate-800">Select a product</h5>
                         <p id="preview-description" class="text-sm text-slate-500">Product details will appear here.</p>
-
+                        <div class="relative w-full" style="padding-top: 100%;">
+                            <img id="preview-article-image" class="absolute top-0 left-0 w-full h-full object-cover"
+                                src="{{ asset('assets/img/signin-image.jpeg') }}" alt="product image">
+                        </div>
                         <div class="mt-4 grid grid-cols-2 gap-4 text-left text-sm text-slate-600">
                             <p><strong>Brand:</strong> <span id="preview-brand">-</span></p>
                             <p><strong>Model:</strong> <span id="preview-model">-</span></p>
@@ -202,21 +209,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Title -->
-                            <div class="w-full max-w-full px-3 md:w-6/12">
-                                <div class="mb-4">
-                                    <label
-                                        class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">Title</label>
-                                    <input id="titleInput" type="text" name="title"
-                                        placeholder="Ex. Toyota Avanza 2020"
-                                        class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 
-                                border border-gray-300 rounded-lg outline-none 
-                                dark:bg-slate-850 dark:text-white 
-                                focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
-                                </div>
-                            </div>
-
                             <!-- Year -->
                             <div class="w-full max-w-full px-3 md:w-6/12">
                                 <div class="mb-4">
@@ -262,7 +254,32 @@
                                         class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 border border-gray-300 rounded-lg outline-none dark:bg-slate-850 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                                 </div>
                             </div>
-
+                            <!-- Title -->
+                            <div class="w-full max-w-full px-3 md:w-12/12">
+                                <div class="mb-4">
+                                    <label
+                                        class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">Title</label>
+                                    <input id="titleInput" type="text" name="title"
+                                        placeholder="Ex. Toyota Avanza 2020"
+                                        class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 
+                                border border-gray-300 rounded-lg outline-none 
+                                dark:bg-slate-850 dark:text-white 
+                                focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                </div>
+                            </div>
+                            <!-- Sub Title -->
+                            <div class="w-full max-w-full px-3 md:w-12/12">
+                                <div class="mb-4">
+                                    <label class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">Sub
+                                        Title</label>
+                                    <input id="subtitleInput" type="text" name="subtitle"
+                                        placeholder="Ex. More Efficient"
+                                        class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 
+                                border border-gray-300 rounded-lg outline-none 
+                                dark:bg-slate-850 dark:text-white 
+                                focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                </div>
+                            </div>
                             <!-- Description -->
                             <div class="w-full max-w-full px-3 md:w-12/12">
                                 <div class="mb-4">
@@ -270,6 +287,17 @@
                                         class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">Description</label>
                                     <textarea id="descriptionInput" name="description" placeholder="Ex. This is a good car"
                                         class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 border border-gray-300 rounded-lg outline-none dark:bg-slate-850 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"></textarea>
+                                </div>
+                            </div>
+                            <div class="w-full max-w-full px-3 md:w-12/12">
+                                <div class="mb-4">
+                                    <label class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">Article
+                                        Image</label>
+                                    <input id="articleimageInput" type="file" name="articleimage" accept="image/*"
+                                        class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 
+                                border border-gray-300 rounded-lg outline-none 
+                                dark:bg-slate-850 dark:text-white 
+                                focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                                 </div>
                             </div>
                         </div>
@@ -285,6 +313,7 @@
                                 Save
                             </button>
                         </div>
+
                     </form>
                     {{-- ✅ End form --}}
                 </div>
@@ -342,6 +371,7 @@
 
             // Populate fields
             document.getElementById('titleInput').value = product.title;
+            document.getElementById('subtitleInput').value = product.subtitle;
             document.getElementById('yearInput').value = product.year;
             document.getElementById('brandInput').value = product.brand;
             document.getElementById('modelInput').value = product.model;
@@ -496,6 +526,7 @@
 
             // Fill text data
             document.getElementById("preview-title").textContent = row.dataset.title;
+            document.getElementById("preview-subtitle").textContent = row.dataset.subtitle;
             document.getElementById("preview-description").textContent = row.dataset.description;
             document.getElementById("preview-brand").textContent = row.dataset.brand;
             document.getElementById("preview-model").textContent = row.dataset.model;
@@ -505,7 +536,10 @@
             // Handle images
             const mainImage = document.getElementById("preview-main-image");
             const thumbnails = document.getElementById("preview-thumbnails");
+            const articleImage = document.getElementById("preview-article-image");
+
             thumbnails.innerHTML = ''; // clear previous thumbnails
+            const articleImg = row.dataset.articleimage ? row.dataset.articleimage : '';
 
             const images = row.dataset.images ? row.dataset.images.split(',') : [];
 
@@ -524,7 +558,12 @@
             } else {
                 mainImage.src = `/assets/img/default-product.png`;
             }
+            if (articleImage) {
+                articleImage.src = `/storage/${articleImg}`;
 
+            } else {
+                articleImage.src = `/assets/img/default-product.png`;
+            }
             card.classList.remove("hidden");
         }
     </script>

@@ -16,18 +16,21 @@
                             <div slider class="relative w-full h-full overflow-hidden rounded-2xl">
                                 @foreach ($activeBanners as $banner)
                                     <div slide class="absolute w-full h-full transition-all duration-500">
-                                        <img class="object-cover h-full w-full" src="{{ asset('storage/' . $banner->image) }}"
-                                            alt="banner image" />
-
-                                        <div
-                                            class="block text-start ml-12 left-0 bottom-0 absolute right-[15%] pt-5 pb-5 text-white">
+                                        <a href="{{ $banner->link ?? '#' }}">
+                                            <img class="object-cover h-full w-full"
+                                                src="{{ asset('storage/' . $banner->image) }}" alt="banner image" />
+                                        </a>
+                                        <div class="block text-start ml-12 right-20 bottom-0 absolute pt-5 pb-5 text-white">
                                             @if ($banner->icon)
                                                 <div
                                                     class="inline-block w-8 h-8 mb-4 text-center text-black bg-white rounded-lg">
                                                     <i class="{{ $banner->icon }} text-xxs relative text-slate-700"></i>
                                                 </div>
                                             @endif
-                                            <h5 class="mb-1 text-white">{{ $banner->title }}</h5>
+                                            <div
+                                                class="w-fit  bg-gradient-to-l from-purple-500/80 via-purple-500/70 to-purple-400/0 px-4 py-4 bg-purple rounded-lg">
+                                                <h5 class="mb-1 text-white">{{ $banner->title }}</h5>
+                                            </div>
                                             <p class="dark:opacity-80">{{ $banner->description }}</p>
                                         </div>
                                     </div>
@@ -48,46 +51,63 @@
 
                     </div>
                 </div>
-                <div class="w-full md:h-[80vh] lg:h-[80vh] flex items-center mt-10">
-                    <div class="container mx-auto px-6 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+                <div class="w-full flex items-center mt-10">
+                    <div class="container mx-auto py-10 px-6  lg:px-16 grid grid-cols-1 lg:grid-cols-1 gap-8 h-full">
                         <!-- Left Side (Image) -->
-                        <div class="flex items-center justify-center h-full overflow-hidden">
+                        {{-- <div class="flex items-center justify-center h-full overflow-hidden">
                             <img src="{{ asset('assets/img/home-image-1.jpeg') }}" alt="Luxury Car"
                                 class="w-full h-full object-cover aspect-[16/9] md:aspect-[8/3] lg:aspect-[8/3] rounded-2xl shadow-lg">
-                        </div>
+                        </div> --}}
 
                         <!-- Right Side (Text) -->
                         <div class="flex flex-col justify-center items-center  md:items-start lg:items-start h-full">
-                            <h2 class=" font-bold text-gray-800 mb-4 text-xl md:text-3xl lg:text-4xl">Find Your Dream Car
-                            </h2>
+                            <h3 class=" font-bold text-gray-800 mb-4 text-2xl md:text-3xl lg:text-4xl">Temukan Mobil Impian
+                                Anda
+                            </h3>
                             <p class="text-lg text-gray-600 mb-6 text-center">
                                 Explore our wide range of cars that suit every lifestyle and budget.
                                 From luxury rides to reliable daily drivers, we’ve got it all.
                             </p>
-                            <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20product"
-                                class="px-6 py-3 bg-blue-500 text-white rounded-xl shadow-md hover:bg-blue-700 transition w-full text-center md:w-auto lg:w-auto">
+                            {{-- <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20product"
+                                class="px-6 py-3 bg-purple-500 text-white rounded-xl shadow-md hover:bg-purple-700 transition w-full text-center md:w-auto lg:w-auto">
                                 Contact Us on WhatsApp
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </div>
                 <div class="border-b"></div>
-                <h3 class="w-full pt-8 text-center ">Latest Cars</h3>
+                <div class="w-full flex flex-col items-center  mb-6">
+                    <h3 class="pt-8 text-center ">Mobil Terbaru</h3>
+                    <div class="w-8 h-2 bg-purple-500">
+                    </div>
+                </div>
+
                 <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                     @foreach ($products as $p)
                         <div
-                            class="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+                            class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
 
                             <div class="relative group">
-                                <div class="absolute top-0 bottom-0 right-0 flex items-end  ">
+                                <div class="absolute w-full bottom-0 left-0">
                                     <div
-                                        class="flex justify-between bg-blue-500 text-white w-fit h-fit text-end font-semibold  py-2 px-2 md:py-3 md:px-3 lg:py-3 lg:px-3 rounded-tl-xl hover:bg-blue-700 transition-colors ">
+                                        class="flex justify-center 
+         bg-gradient-to-t from-purple-500/80 via-purple-500/50 to-purple-400/0
+         w-full h-fit px-2 md:px-3 lg:px-3 py-2 md:py-3 lg:py-3  
+         transition-colors">
+                                        <span
+                                            class=" font-semibold text-md sm:text-xs md:text-md lg:text-2xl text-white uppercase">
+                                            {{ $p->title }}</span>
+                                    </div>
+                                </div>
+                                {{-- <div class="absolute top-0 bottom-0 right-0 flex items-end  w-1/2">
+                                    <div
+                                        class="flex justify-center bg-purple-500/70 text-white w-full h-fit font-semibold  py-2 px-4 md:py-3 md:px-3 lg:py-3 lg:px-3 rounded-tl-lg hover:bg-purple-700 transition-colors ">
                                         <span class="text-xs sm:text-xs md:text-md lg:text-lg ">
                                             {{ rupiah($p->price) }}</span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
-                                    class="w-full aspect-video lg:aspect-square  object-cover">
+                                    class="w-full aspect-video lg:aspect-video  object-cover">
 
                                 <!-- Hover overlay -->
                                 <a href="{{ route('product-page', encrypt($p->product_id)) }}"
@@ -95,134 +115,120 @@
                                     View Details
                                 </a>
                             </div>
-
-                            <div class="relative px-3 pt-3 flex-1 flex flex-col justify-between ">
-                                <div>
-                                    <h4
-                                        class="font-semibold text-gray-800 m-0 p-0 text-sm sm:text-sm md:text-md lg:text-lg">
-                                        {{ $p->title }}</h4>
-                                    <p
-                                        class="text-gray-500 mt-0 text-xs sm:text-sm md:text-md lg:text-lg 
-   overflow-hidden text-ellipsis line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
-                                        {{ $p->description }}
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     @endforeach
-                    <div
-                        class="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
-                        <div class="relative group">
-                            <!-- Blurry placeholder image -->
-                            <div class="w-full aspect-video lg:aspect-square bg-gray-200 flex items-center justify-center">
-                                <img src="{{ asset('assets/img/car-placeholder.jpg') }}" alt="More cars"
-                                    class="w-full h-full object-cover blur-md opacity-70">
-                                <span class="absolute text-xl font-bold text-white drop-shadow-lg">More Cars</span>
+                </div>
+                <div class="w-full flex justify-center mt-10">
+                    <a href="{{ route('products-catalogue') }}"
+                        class="inline-block px-20 md:px-40 lg:px-40  py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-bold 
+            hover:bg-purple-500 hover:border-gray-400 
+            transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+                        Lihat Semua Mobil
+                    </a>
+                </div>
 
-                            </div>
-                            <!-- Hover overlay -->
-                            <a href="{{ route('products-catalogue') }}"
-                                class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                                More Cars
-                            </a>
-                        </div>
-
-                        <div class="relative p-4 flex-1 flex flex-col justify-center items-center">
-                            <h4 class="text-md font-semibold text-gray-600">See More</h4>
-                        </div>
+                <div class="w-full border-b  mt-10"></div>
+                <div class="border-b"></div>
+                <div class="w-full flex flex-col items-center mb-6">
+                    <h3 class="pt-8 text-center ">Artikel Terbaru</h3>
+                    <div class="w-8 h-2 bg-purple-500">
                     </div>
                 </div>
 
+                <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+                    @foreach ($articles as $a)
+                        <a href="{{ route('article-page', encrypt($a->id)) }}">
+
+                            <div
+                                class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+
+                                <div class="relative group">
+                                    <div class="absolute w-full bottom-0 left-0">
+                                    </div>
+                                    <img src="{{ asset('storage/' . $a->image) }}" alt="{{ $a->title }}"
+                                        class="w-full aspect-video lg:aspect-video  object-cover">
+
+                                </div>
+                                <div class="p-3">
+                                    <span class="font-bold text-lg">{{ $a->title }}</span>
+                                    <p class="font-normal text-sm line-clamp-2 lg:line-clamp-3">
+                                        {{ $a->description }}
+                                    </p>
+                                    <span class="text-xs">
+                                        <i class="fa-solid fa-clock"></i>
+                                        {{ \Carbon\Carbon::parse($a->created_at)->diffForHumans() }}</span>
+
+                                </div>
+
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                <div class="w-full flex justify-center mt-10">
+                    <a href="{{ route('articles-list') }}"
+                        class="inline-block px-20 md:px-40 lg:px-40  py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-bold 
+            hover:bg-purple-500 hover:border-gray-400 
+            transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+                        Lihat Semua Artikel & Promo
+                    </a>
+                </div>
+                <div class="w-full border-b  mt-10"></div>
+                <div class="w-full flex flex-col items-center  mb-6">
+                    <h3 class="pt-8 text-center ">Unit Hand Over</h3>
+                    <div class="w-8 h-2 bg-purple-500">
+                    </div>
+                    <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-6 p-4">
+
+                        @foreach ($gallery as $galeri)
+                            <div
+                                class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+                                <img src="{{ asset('storage/' . $galeri->path) }}"
+                                    class="w-full h-40 object-cover cursor-pointer aspect-square transition-transform duration-300 hover:scale-105 rounded-lg"
+                                    alt="Gallery Image"
+                                    onclick="openImageModal('{{ asset('storage/' . $galeri->path) }}')">
+
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div id="imageModal"
+                class="fixed flex inset-0 w-[100vw] h-[100vh] overflow-hidden bg-black/50 hidden items-center justify-center z-[999] transition-opacity duration-300">
+                <div id="imageModalCard"
+                    class="relative max-w-3xl w-full transform scale-95 opacity-0 transition-all duration-300">
+                    <img id="modalImage" src="" class="max-h-[80vh] mx-auto rounded-lg shadow-lg">
+
+                </div>
             </div>
         </div>
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const slider = document.querySelector('[slider]');
-                const slides = slider.querySelectorAll('[slide]');
-                const nextBtn = slider.querySelector('[btn-next]');
-                const prevBtn = slider.querySelector('[btn-prev]');
-                let currentIndex = 0;
-                const total = slides.length;
-                let startX = 0,
-                    currentX = 0,
-                    isDragging = false;
+            const imageModal = document.getElementById('imageModal');
+            const imageModalCard = document.getElementById('imageModalCard');
 
-                // --- Position slides ---
-                function updateSlides(withTransition = true) {
-                    slides.forEach((slide, i) => {
-                        slide.style.transition = withTransition ? "transform 0.3s ease" : "none";
-                        slide.style.transform = `translateX(${(i - currentIndex) * 100}%)`;
-                    });
+            // Open modal with animation
+            function openImageModal(src) {
+                document.getElementById('modalImage').src = src;
+                imageModal.classList.remove('hidden');
+                setTimeout(() => {
+                    imageModal.classList.add('opacity-100');
+                    imageModalCard.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            }
+
+            // Close modal with animation
+            function closeImageModal() {
+                imageModal.classList.remove('opacity-100');
+                imageModalCard.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    imageModal.classList.add('hidden');
+                }, 300);
+            }
+
+            // Click outside to close
+            imageModal.addEventListener('click', function(e) {
+                if (!imageModalCard.contains(e.target)) {
+                    closeImageModal();
                 }
-
-                // --- Navigation ---
-                function nextSlide() {
-                    currentIndex = (currentIndex + 1) % total;
-                    updateSlides();
-                }
-
-                function prevSlide() {
-                    currentIndex = (currentIndex - 1 + total) % total;
-                    updateSlides();
-                }
-
-                nextBtn.addEventListener('click', nextSlide);
-                prevBtn.addEventListener('click', prevSlide);
-
-                // --- Touch & Mouse drag support ---
-                function dragStart(x) {
-                    startX = x;
-                    currentX = x;
-                    isDragging = true;
-                    updateSlides(false); // disable transition during drag
-                }
-
-                function dragMove(x) {
-                    if (!isDragging) return;
-                    currentX = x;
-                    let diffX = currentX - startX;
-
-                    slides.forEach((slide, i) => {
-                        let offset = (i - currentIndex) * 100 + (diffX / slider.offsetWidth) * 100;
-                        slide.style.transform = `translateX(${offset}%)`;
-                    });
-                }
-
-                function dragEnd() {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    let diffX = currentX - startX;
-
-                    if (Math.abs(diffX) > slider.offsetWidth / 4) {
-                        if (diffX > 0) prevSlide();
-                        else nextSlide();
-                    } else {
-                        updateSlides(); // snap back
-                    }
-                }
-
-                // --- Touch events ---
-                slider.addEventListener('touchstart', e => dragStart(e.touches[0].clientX));
-                slider.addEventListener('touchmove', e => dragMove(e.touches[0].clientX));
-                slider.addEventListener('touchend', dragEnd);
-
-                // --- Mouse events ---
-                slider.addEventListener('mousedown', e => dragStart(e.clientX));
-                slider.addEventListener('mousemove', e => dragMove(e.clientX));
-                slider.addEventListener('mouseup', dragEnd);
-                slider.addEventListener('mouseleave', dragEnd);
-
-                // --- Auto slide ---
-                const intervalTime = 4000;
-                let autoSlide = setInterval(nextSlide, intervalTime);
-
-                slider.addEventListener('mouseenter', () => clearInterval(autoSlide));
-                slider.addEventListener('mouseleave', () => {
-                    autoSlide = setInterval(nextSlide, intervalTime);
-                });
-
-                // --- Init ---
-                updateSlides();
             });
         </script>
 

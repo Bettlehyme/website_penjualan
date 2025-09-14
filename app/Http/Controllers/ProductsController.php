@@ -21,40 +21,44 @@ class ProductsController extends Controller
         return view('admin.product', ['products' => $products]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     public function store(Request $request)
     {
         try {
-
             $validated = $request->validate([
-                'title'       => 'required|string|max:255',
-                'description' => 'required|string',
-                'price'       => 'required|numeric|min:0',
-                'brand'       => 'required|string|max:255',
-                'model'       => 'required|string|max:255',
-                'year'        => 'required|string|max:4',
-                'images'      => 'nullable|array',
-                'images.*'    => 'nullable|image|mimes:jpg,jpeg,png',
+                'title'        => 'required|string|max:255',
+                'subtitle'     => 'required|string|max:255',
+                'description'  => 'required|string',
+                'price'        => 'required|numeric|min:0',
+                'brand'        => 'required|string|max:255',
+                'model'        => 'required|string|max:255',
+                'year'         => 'required|string|max:4',
+                'images'       => 'nullable|array',
+                'images.*'     => 'nullable|image|mimes:jpg,jpeg,png',
+                'articleimage' => 'nullable|image|mimes:jpg,jpeg,png',
             ]);
 
             DB::beginTransaction();
 
+            // ✅ Handle article image first (optional)
+            $articleImagePath = null;
+            if ($request->hasFile('articleimage')) {
+                $articleImagePath = $request->file('articleimage')->store('products/article', 'public');
+            }
+
+            // ✅ Create product with article image
             $product = Products::create([
-                'title'       => $validated['title'],
-                'description' => $validated['description'],
-                'price'       => $validated['price'],
-                'brand'       => $validated['brand'],
-                'model'       => $validated['model'],
-                'year'        => $validated['year'],
+                'title'         => $validated['title'],
+                'subtitle'      => $validated['subtitle'],
+                'description'   => $validated['description'],
+                'price'         => $validated['price'],
+                'brand'         => $validated['brand'],
+                'model'         => $validated['model'],
+                'year'          => $validated['year'],
+                'articleimage' => $articleImagePath, // make sure column exists
             ]);
 
+            // ✅ Handle gallery images
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $index => $image) {
                     $path = $image->store('products', 'public');
@@ -73,7 +77,6 @@ class ProductsController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            // Log error (optional)
             Log::error('Product store failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
@@ -83,6 +86,7 @@ class ProductsController extends Controller
             ]);
         }
     }
+
 
 
     /**
@@ -110,29 +114,20 @@ class ProductsController extends Controller
         return view('product.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Products $products)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         try {
             $validated = $request->validate([
-                'title'       => 'required|string|max:255',
-                'description' => 'required|string',
-                'price'       => 'required|numeric|min:0',
-                'brand'       => 'required|string|max:255',
-                'model'       => 'required|string|max:255',
-                'year'        => 'required|string|max:4',
-                'images'      => 'nullable|array',
-                'images.*'    => 'nullable|image|mimes:jpg,jpeg,png',
+                'title'        => 'required|string|max:255',
+                'subtitle'     => 'required|string|max:255',
+                'description'  => 'required|string',
+                'price'        => 'required|numeric|min:0',
+                'brand'        => 'required|string|max:255',
+                'model'        => 'required|string|max:255',
+                'year'         => 'required|string|max:4',
+                'images'       => 'nullable|array',
+                'images.*'     => 'nullable|image|mimes:jpg,jpeg,png',
+                'articleimage' => 'nullable|image|mimes:jpg,jpeg,png',
             ]);
 
             DB::beginTransaction();
@@ -141,6 +136,7 @@ class ProductsController extends Controller
 
             $product->update([
                 'title'       => $validated['title'],
+                'subtitle'    => $validated['subtitle'],
                 'description' => $validated['description'],
                 'price'       => $validated['price'],
                 'brand'       => $validated['brand'],
@@ -148,12 +144,15 @@ class ProductsController extends Controller
                 'year'        => $validated['year'],
             ]);
 
+            // ✅ Handle gallery images
             if ($request->hasFile('images')) {
+                // delete old gallery
                 foreach ($product->images as $oldImage) {
                     Storage::disk('public')->delete($oldImage->path);
                     $oldImage->delete();
                 }
 
+                // upload new gallery
                 foreach ($request->file('images') as $index => $image) {
                     $path = $image->store('products', 'public');
 
@@ -163,6 +162,20 @@ class ProductsController extends Controller
                         'position'   => $index,
                     ]);
                 }
+            }
+
+            // ✅ Handle article cover image
+            if ($request->hasFile('articleimage')) {
+                // delete old article image if exists
+                if ($product->article_image) {
+                    Storage::disk('public')->delete($product->article_image);
+                }
+
+                $articleImagePath = $request->file('articleimage')->store('products', 'public');
+
+                $product->update([
+                    'articleimage' => $articleImagePath
+                ]);
             }
 
             DB::commit();
@@ -180,6 +193,7 @@ class ProductsController extends Controller
             ]);
         }
     }
+
 
 
     /**

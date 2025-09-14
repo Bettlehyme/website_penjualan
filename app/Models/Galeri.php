@@ -6,20 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Banners extends Model
+class Galeri extends Model
 {
+     use HasFactory, SoftDeletes;
 
-    use HasFactory, SoftDeletes;
-
-    protected $table = 'banners';
+    protected $table = 'galeris';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
     protected $fillable = [
-        'title',
-        'image',
-        'link',
-        'order',
-        'is_active'
+        'path',
     ];
 }

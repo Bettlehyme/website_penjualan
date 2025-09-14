@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vieweds', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')
-                ->references('product_id') 
-                ->on('products')
-                ->onDelete('cascade');
-            $table->string('ip_address');
-            $table->softDeletes();
+            $table->string('key')->unique();
+            $table->longText('value')->nullable(); 
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vieweds');
+        Schema::dropIfExists('settings');
     }
 };

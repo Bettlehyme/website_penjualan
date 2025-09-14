@@ -1,27 +1,11 @@
 /*!
 
-=========================================================
-* Argon Dashboard 2 Tailwind - v1.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-tailwind
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
 
 /*! tailwindcss v3.1.6 | MIT License | https://tailwindcss.com
 
-*/
-
-/*
-1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
-2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
 */
 
 *,
@@ -59,7 +43,7 @@ html {
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: Open Sans;
+  font-family: Poppins;
   /* 4 */
 }
 
@@ -118,7 +102,7 @@ Reset links to optimize for opt-in styling instead of opt-out.
 */
 
 a {
-  color: inherit;
+  /* color: inherit; */
   text-decoration: inherit;
 }
 
@@ -140,7 +124,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: Poppins,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -230,17 +214,7 @@ select {
 2. Remove default button styles.
 */
 
-button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-  -webkit-appearance: button;
-  /* 1 */
-  background-color: transparent;
-  /* 2 */
-  background-image: none;
-  /* 2 */
-}
+
 
 /*
 Use the modern Firefox focus style for all focusable elements.
@@ -2484,7 +2458,7 @@ h6 {
 }
 
 .font-sans {
-  font-family: Open Sans;
+  font-family: Poppins;
 }
 
 .text-base {

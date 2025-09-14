@@ -25,7 +25,7 @@ class SignInController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard'); // ✅ go to dashboard
+            return redirect()->intended('/banners'); // ✅ go to dashboard
         }
 
         return back()->withErrors([

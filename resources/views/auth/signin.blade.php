@@ -62,7 +62,7 @@
 
                                         <div class="text-center">
                                             <button type="submit"
-                                                class="inline-block w-full px-16 py-3.5 mt-6 mb-0 font-bold leading-normal text-center text-white align-middle transition-all bg-blue-500 border-0 rounded-lg cursor-pointer hover:-translate-y-px active:opacity-85 hover:shadow-xs text-sm ease-in tracking-tight-rem shadow-md bg-150 bg-x-25">
+                                                class="inline-block w-full px-16 py-3.5 mt-6 mb-0 font-bold leading-normal text-center text-white align-middle transition-all bg-purple-500 border-0 rounded-lg cursor-pointer hover:-translate-y-px active:opacity-85 hover:shadow-xs text-sm ease-in tracking-tight-rem shadow-md bg-150 bg-x-25">
                                                 Sign in
                                             </button>
                                         </div>
@@ -77,7 +77,7 @@
                             <div class="relative flex flex-col justify-center h-full bg-cover bg-center px-24 m-4 overflow-hidden rounded-xl"
                                 style="background-image: url('{{ asset('assets/img/signin-image.jpeg') }}')">
                                 <span
-                                    class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-blue-500 to-blue-600 opacity-60"></span>
+                                    class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-purple-500 to-purple-600 opacity-60"></span>
                                 <h4 class="z-20 mt-12 font-bold text-white">"Cars Sales is now Fun"</h4>
                                 <p class="z-20 text-white ">The more effortless the writing looks, the more effort the
                                     writer actually put into the process.</p>

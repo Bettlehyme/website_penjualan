@@ -6,19 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Viewed extends Model
+class Brosur extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'vieweds';
-
+    protected $table = 'brosurs';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
-        'product_id',
-        'ip_address',
+        'title',
+        'path',
     ];
-
-    public function product()
-    {
-        return $this->belongsTo(Products::class, 'product_id', 'product_id');
-    }
 }

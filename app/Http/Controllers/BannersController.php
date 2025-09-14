@@ -3,39 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banners;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class BannersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $activeBanners = Banners::where('is_active', true)->get();
         $banners = Banners::orderBy('order')->get();
-        return view('admin.banners', ['banners' => $banners, 'activeBanners' => $activeBanners]);
+        $products = Products::with('images')->get();
+        // dd($products);
+        return view('admin.banners', ['banners' => $banners, 'activeBanners' => $activeBanners, 'products' => $products]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
             $request->validate([
                 'banners.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
                 'banners.*.title' => 'nullable|string|max:255',
+                'banners.*.link'  => 'nullable|string',
                 'banners.*.order' => 'nullable|integer',
                 'banners.*.is_active' => 'nullable|boolean',
             ]);
@@ -50,6 +41,7 @@ class BannersController extends Controller
 
                 Banners::create([
                     'title' => $bannerData['title'] ?? null,
+                    'link'  => $bannerData['link'] ?? null,
                     'image' => $path,
                     'order' => $bannerData['order'] ?? 0,
                     'is_active' => $bannerData['is_active'] ?? true,
@@ -70,35 +62,6 @@ class BannersController extends Controller
     }
 
 
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Banners $banners)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Banners $banners)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Banners $banners)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Banners $banner)
     {
         try {

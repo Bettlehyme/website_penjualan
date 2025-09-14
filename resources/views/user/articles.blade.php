@@ -8,7 +8,7 @@
     <div class="relative flex min-h-screen p-0 overflow-hidden bg-center bg-cover">
         <div class="container z-1 mt-30">
             <!-- Search bar -->
-            <form method="GET" action="{{ route('products-catalogue') }}" class="mb-6">
+            <form method="GET" action="{{ route('articles-list') }}" class="mb-6">
                 <div class="flex items-center max-w-md mx-auto">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search cars..."
                         class="w-full px-4 py-2 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
@@ -22,42 +22,34 @@
             <!-- Product grid -->
             <div class="flex flex-wrap -mx-3">
                 <div class="w-full max-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-                    @forelse ($products as $p)
-                        <div
-                            class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+                    @forelse ($articles as $a)
+                        <a href="{{ route('product-page', encrypt($a->id)) }}">
 
-                            <div class="relative group">
-                                <div class="absolute w-full bottom-0 left-0">
-                                    <div
-                                        class="flex justify-center 
-         bg-gradient-to-t from-purple-500/80 via-purple-500/50 to-purple-400/0
-         w-full h-fit px-2 md:px-3 lg:px-3 py-2 md:py-3 lg:py-3  
-         transition-colors">
-                                        <span
-                                            class=" font-semibold text-md sm:text-xs md:text-md lg:text-2xl text-white uppercase">
-                                            {{ $p->title }}</span>
+                            <div
+                                class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+
+                                <div class="relative group">
+                                    <div class="absolute w-full bottom-0 left-0">
                                     </div>
+                                    <img src="{{ asset('storage/' . $a->image) }}" alt="{{ $a->title }}"
+                                        class="w-full aspect-video lg:aspect-video  object-cover">
+
                                 </div>
-                                {{-- <div class="absolute top-0 bottom-0 right-0 flex items-end  w-1/2">
-                                    <div
-                                        class="flex justify-center bg-purple-500/70 text-white w-full h-fit font-semibold  py-2 px-4 md:py-3 md:px-3 lg:py-3 lg:px-3 rounded-tl-lg hover:bg-purple-700 transition-colors ">
-                                        <span class="text-xs sm:text-xs md:text-md lg:text-lg ">
-                                            {{ rupiah($p->price) }}</span>
-                                    </div>
-                                </div> --}}
-                                <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
-                                    class="w-full aspect-square lg:aspect-square  object-cover">
+                                <div class="p-3">
+                                    <span class="font-bold text-lg">{{ $a->title }}</span>
+                                    <p class="font-normal text-sm line-clamp-2 lg:line-clamp-3">
+                                        {{ $a->description }}
+                                    </p>
+                                    <span class="text-xs">
+                                        <i class="fa-solid fa-clock"></i>
+                                        {{ \Carbon\Carbon::parse($a->created_at)->diffForHumans() }}</span>
+                                </div>
 
-                                <!-- Hover overlay -->
-                                <a href="{{ route('product-page', encrypt($p->product_id)) }}"
-                                    class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                                    View Details
-                                </a>
                             </div>
-                        </div>
+                        </a>
                     @empty
                         <div class="col-span-full text-center text-gray-500 py-10">
-                            No products found.
+                            No Article found.
                         </div>
                     @endforelse
                 </div>
@@ -65,7 +57,7 @@
 
             <!-- Pagination -->
             <div class="mt-8 flex justify-center">
-                {{ $products->links('pagination::tailwind') }}
+                {{ $articles->links('pagination::tailwind') }}
             </div>
         </div>
 

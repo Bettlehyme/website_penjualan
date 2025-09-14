@@ -117,18 +117,29 @@
             <div class="relative w-full h-64 mb-4 rounded-lg overflow-hidden banner-item" draggable="true">
                 <!-- Image upload -->
                 <input type="file" name="banners[][image]" class="hidden banner-image-input" accept="image/*">
-                <img src="{{ asset('assets/img/default-product.jpg') }}"
+                <img src="{{ asset('assets/img/add-photo.png') }}"
                     class="w-full h-full object-cover banner-preview cursor-pointer" alt="preview">
 
                 <!-- Title overlay -->
-                <div class="absolute bottom-0 left-0 w-full bg-black/50 px-4 py-2 flex justify-center">
+                <div class="absolute bottom-0 left-0 w-full bg-blue-500/50 px-4 py-2 flex justify-center gap-2">
+                    <!-- Banner title -->
                     <input type="text" name="banners[][title]" placeholder="Enter banner title"
-                        class="w-full max-w-xl text-white bg-transparent border border-white rounded px-3 py-1 text-sm text-center outline-none banner-title-input">
+                        class="w-full max-w-xl text-white font-bold bg-transparent border border-white rounded px-3 py-1 text-sm text-center outline-none banner-title-input">
+
+                    <!-- Hidden input for linkto -->
+                    <input type="hidden" name="banners[][link]" class="banner-linkto-input">
+
+                    <!-- Button to open product modal -->
+                    <button type="button"
+                        class="px-3 py-1 text-sm text-center font-semibold rounded bg-blue-500 text-white hover:bg-blue-800 transition "
+                        onclick="openProductModal(this)">
+                        Link Product
+                    </button>
                 </div>
 
                 <!-- Remove button -->
                 <button type="button"
-                    class="absolute top-2 right-2 px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600 remove-banner-btn">
+                    class="absolute top-2 right-2 px-2 py-1 text-xs text-red-500 bg-red-400 rounded hover:bg-red-600 remove-banner-btn">
                     Remove
                 </button>
 
@@ -137,6 +148,30 @@
             </div>
         </template>
 
+        <div id="productModal" class="fixed inset-0 bg-black/60 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-4">
+                <div class="flex justify-between items-center border-b pb-2 mb-4">
+                    <h2 class="text-lg font-semibold">Select a Product</h2>
+                    <button onclick="closeProductModal()" class="text-gray-500 hover:text-black">&times;</button>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="productGrid"
+                    class="grid grid-cols-2 h-100 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto">
+                    @foreach ($products as $p)
+                        <div onclick="selectProduct('/product-page/{{ encrypt($p->product_id) }}', '{{ $p->title }}')"
+                            class="cursor-pointer border p-2 rounded hover:bg-gray-100 aspect-square">
+                            <img src="{{ asset('storage/' . $p->images[0]->path) }}"
+                                class="w-full aspect-square object-cover rounded">
+                            <p class="mt-2 text-center text-sm">{{ $p->title }}</p>
+                        </div>
+                    @endforeach
+
+                    <!-- Add dynamically via backend/JS -->
+                </div>
+            </div>
+        </div>
+
         @include('layouts.components.admin-footer')
         <script>
             const addBannerBtn = document.getElementById('addBannerBtn');
@@ -144,19 +179,32 @@
             const bannerTemplate = document.getElementById('bannerItemTemplate');
             const emptyMessage = document.getElementById('emptyMessage');
             const bannersForm = document.getElementById('bannersForm');
-            let draggedItem = null;
 
+            // Toggle empty state
             function toggleEmptyMessage() {
-                emptyMessage.style.display = bannerContainer.querySelectorAll('.banner-item').length ? 'none' : 'block';
+                const items = bannerContainer.querySelectorAll('.banner-item');
+                emptyMessage.style.display = items.length ? 'none' : 'block';
             }
 
-            // Update positions before submit
+            // Reindex banners for form submission
+            function reindexBanners() {
+                bannerContainer.querySelectorAll('.banner-item').forEach((item, i) => {
+                    item.querySelector('.banner-title-input')?.setAttribute('name', `banners[${i}][title]`);
+                    item.querySelector('.banner-linkto-input')?.setAttribute('name', `banners[${i}][link]`);
+                    item.querySelector('.banner-image-input')?.setAttribute('name', `banners[${i}][image]`);
+                    item.querySelector('.banner-position-input')?.setAttribute('name', `banners[${i}][order]`);
+                    item.querySelector('.banner-active-input')?.setAttribute('name', `banners[${i}][is_active]`);
+                });
+            }
+
+            // Update order values before form submit
             bannersForm.addEventListener('submit', () => {
-                Array.from(bannerContainer.querySelectorAll('.banner-item')).forEach((item, idx) => {
+                bannerContainer.querySelectorAll('.banner-item').forEach((item, idx) => {
                     item.querySelector('.banner-position-input').value = idx;
                 });
             });
 
+            // Add banner
             addBannerBtn.addEventListener('click', () => {
                 const clone = bannerTemplate.content.cloneNode(true);
                 bannerContainer.appendChild(clone);
@@ -167,100 +215,58 @@
                 const input = lastItem.querySelector('.banner-image-input');
                 const removeBtn = lastItem.querySelector('.remove-banner-btn');
 
-                // Image click to open file
+                // Click preview to open file picker
                 img.addEventListener('click', () => input.click());
 
                 // Preview selected image
                 input.addEventListener('change', (e) => {
                     const file = e.target.files[0];
-                    if (file) img.src = URL.createObjectURL(file);
+                    if (file) {
+                        img.src = URL.createObjectURL(file);
+                    }
                 });
 
                 // Remove banner
                 removeBtn.addEventListener('click', () => {
                     lastItem.remove();
                     toggleEmptyMessage();
+                    reindexBanners();
                 });
 
-                // Drag & drop
-                lastItem.addEventListener('dragstart', () => {
-                    draggedItem = lastItem;
-                    setTimeout(() => lastItem.classList.add('opacity-50'), 0);
-                });
-                lastItem.addEventListener('dragend', () => {
-                    draggedItem.classList.remove('opacity-50');
-                    draggedItem = null;
-                });
-                lastItem.addEventListener('dragover', e => e.preventDefault());
-                lastItem.addEventListener('drop', () => {
-                    if (draggedItem && draggedItem !== lastItem) {
-                        const children = Array.from(bannerContainer.querySelectorAll('.banner-item'));
-                        const draggedIndex = children.indexOf(draggedItem);
-                        const targetIndex = children.indexOf(lastItem);
-
-                        if (draggedIndex < targetIndex) {
-                            bannerContainer.insertBefore(draggedItem, lastItem.nextSibling);
-                        } else {
-                            bannerContainer.insertBefore(draggedItem, lastItem);
-                        }
-                    }
-                });
+                reindexBanners();
             });
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const slider = document.querySelector('[slider]');
-                const slides = slider.querySelectorAll('[slide]');
-                const nextBtn = slider.querySelector('[btn-next]');
-                const prevBtn = slider.querySelector('[btn-prev]');
-                let currentIndex = 0;
-                const total = slides.length;
+            // ================== PRODUCT MODAL ==================
+            let activeLinkInput = null;
+            let activeButton = null;
 
-                // Position slides
-                function updateSlides() {
-                    slides.forEach((slide, i) => {
-                        slide.style.transform = `translateX(${(i - currentIndex) * 100}%)`;
-                    });
+            function openProductModal(button) {
+                const container = button.closest('.banner-item');
+                activeLinkInput = container.querySelector('.banner-linkto-input');
+                activeButton = button;
+                document.getElementById('productModal').classList.remove('hidden');
+            }
+
+            function closeProductModal() {
+                document.getElementById('productModal').classList.add('hidden');
+            }
+
+            function selectProduct(productSlug, productTitle) {
+                if (activeLinkInput && activeButton) {
+                    activeLinkInput.value = productSlug;
+                    activeButton.textContent = productTitle;
                 }
+                closeProductModal();
+            }
 
-                // Next & Prev functions
-                function nextSlide() {
-                    currentIndex = (currentIndex + 1) % total;
-                    updateSlides();
-                }
+            
 
-                function prevSlide() {
-                    currentIndex = (currentIndex - 1 + total) % total;
-                    updateSlides();
-                }
-
-                nextBtn.addEventListener('click', nextSlide);
-                prevBtn.addEventListener('click', prevSlide);
-
-                // Swipe support
-                let startX = 0;
-                let endX = 0;
-
-                slider.addEventListener('touchstart', (e) => {
-                    startX = e.touches[0].clientX;
-                });
-
-                slider.addEventListener('touchmove', (e) => {
-                    endX = e.touches[0].clientX;
-                });
-
-                slider.addEventListener('touchend', () => {
-                    const diff = startX - endX;
-                    if (diff > 50) nextSlide(); // swipe left
-                    if (diff < -50) prevSlide(); // swipe right
-                });
-
-                // Initialize positions
-                updateSlides();
-            });
-
-
+            // Initialize
             toggleEmptyMessage();
         </script>
+
+
+
 
     </div>
 @endsection
