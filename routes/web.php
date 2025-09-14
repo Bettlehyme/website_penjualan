@@ -18,21 +18,22 @@ Route::get('/article-page/{id}', [UserSideController::class, 'articlePage'])->na
 Route::get('/price-list', [UserSideController::class, 'indexPriceList'])->name('price-list');
 Route::get('/gallery-list', [UserSideController::class, 'indexGallery'])->name('gallery-list');
 
+
 Route::get('/sign-in', [SignInController::class, 'showLoginForm'])->name('login');
 Route::post('/sign-in', [SignInController::class, 'login'])->name('login.attempt');
+
+
 Route::post('/sign-out', [SignInController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
-
     Route::resource('/banners', BannersController::class)->names('banners');
     Route::resource('/product', ProductsController::class)->names('product');
     Route::resource('/article', ArticleController::class)->names('article');
     Route::resource('/gallery', GaleriController::class)->names('gallery');
     Route::get('/site-settings', [SiteSettingsController::class, 'index'])->name('site-settings.index');
     Route::put('/site-settings', [SiteSettingsController::class, 'update'])->name('site-settings.update');
-
     Route::resource('/user', UserController::class)->names('user');
 });

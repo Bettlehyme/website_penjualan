@@ -5,7 +5,7 @@
             </a>
 
         </div>
-        <div class="flex flex-col md:flex-row lg:flex-row justify-center gap-20 mb-10">
+        <div class="flex flex-col md:flex-row lg:flex-row justify-center gap-10  mb-10">
             <div class=" px-3 mt-1 text-center flex-0">
                 <div class="max-w-sm mx-auto bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <!-- Image -->
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div class="max-w-full px-3 mt-1 text-left flex-0">
+            <div class="max-w-full w-12/12  md:w-6/12  px-3 mt-1 text-left flex-0">
                 <p>{{ setting('footer_description') }} </p>
             </div>
         </div>

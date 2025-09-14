@@ -11,7 +11,10 @@ class SignInController extends Controller
     // Show login form
     public function showLoginForm()
     {
-        return view('auth.signin');
+        if (Auth::check()) {
+            return redirect()->intended('/banners');
+        }
+        return view('auth.login');
     }
 
     // Handle login attempt
