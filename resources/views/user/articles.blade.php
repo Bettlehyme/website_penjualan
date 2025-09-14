@@ -23,7 +23,7 @@
             <div class="flex flex-wrap -mx-3">
                 <div class="w-full max-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                     @forelse ($articles as $a)
-                        <a href="{{ route('product-page', encrypt($a->id)) }}">
+                       <a href="{{ route('article-page', encrypt($a->id)) }}">
 
                             <div
                                 class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
