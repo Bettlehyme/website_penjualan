@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('price-list') }}"
+                    <a href="/price-list"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg  cursor-pointer 
            text-sm tracking-tight-rem uppercase 
@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('articles-list') }}"
+                    <a href="/article-list"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg  cursor-pointer 
            text-sm tracking-tight-rem uppercase 
@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="relative">
-                    <a href="{{ route('products-catalogue') }}" id="dropdownToggle"
+                    <a href="/products-catalogue" id="dropdownToggle"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
      transition-all ease-in border-0 rounded-lg cursor-pointer 
      text-sm tracking-tight-rem uppercase 
@@ -66,10 +66,10 @@
                         Model
                     </a>
 
-                   
+
                 </li>
                 <li>
-                    <a href="{{ route('gallery-list') }}"
+                    <a href="/gallery-list"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg cursor-pointer 
            text-sm tracking-tight-rem uppercase 
@@ -97,12 +97,15 @@
             const toggle = document.getElementById("dropdownToggle");
             const menu = document.getElementById("dropdownMenu");
             const parent = toggle.parentElement;
-
+            console.log(currentPath);
             links.forEach(link => {
                 // Match by pathname
                 if (link.getAttribute("href") === currentPath) {
                     link.classList.add("active-link");
+                   
+
                 }
+                 console.log(link.getAttribute("href"));
             });
 
             parent.addEventListener("mouseenter", () => {
