@@ -66,20 +66,20 @@ class UserSideController extends Controller
     public function productPage($id)
     {
         $products = Products::with('images')->limit(4)->get();
-
+        $articles = Article::limit(4)->get();
         $product = Products::with('images')
             ->where('product_id', decrypt($id))
             ->firstOrFail();
 
-        return view('user.product-page', ['product' => $product, 'products' => $products]);
+        return view('user.product-page', ['product' => $product, 'products' => $products, 'articles' => $articles]);
     }
     public function articlePage($id)
     {
+        $products = Products::with('images')->limit(4)->get();
         $articles = Article::limit(4)->get();
-
         $article = Article::where('id', decrypt($id))
             ->firstOrFail();
 
-        return view('user.article-page', ['article' => $article, 'articles' => $articles]);
+        return view('user.article-page', ['article' => $article, 'products' => $products, 'articles' => $articles]);
     }
 }

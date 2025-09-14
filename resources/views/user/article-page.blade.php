@@ -12,7 +12,7 @@
                 <div class=" p-4 text-center">
                     <h1 class=" md:text-2xl lg:text-4xl font-bold text-gray-900">{{ $article->title }}</h1>
                 </div>
-                
+
 
 
                 <!-- Right: article Details -->
@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="w-full max-w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 mt-6">
-                @foreach ($articles as $p)
+                @foreach ($products as $p)
                     <div
                         class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
 
@@ -83,11 +83,11 @@
                                             {{ rupiah($p->price) }}</span>
                                     </div>
                                 </div> --}}
-                            <img src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->title }}"
+                            <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
                                 class="w-full aspect-video lg:aspect-video  object-cover">
 
                             <!-- Hover overlay -->
-                            <a href="{{ route('article-page', encrypt($p->article_id)) }}"
+                            <a href="{{ route('product-page', encrypt($p->product_id)) }}"
                                 class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                 View Details
                             </a>
@@ -99,6 +99,35 @@
                 <h3 class="pt-8 text-center text-md">Artikel</h3>
                 <div class="w-8 h-2 bg-purple-500">
                 </div>
+            </div>
+            <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+                @foreach ($articles as $a)
+                    <a href="{{ route('article-page', encrypt($a->id)) }}">
+
+                        <div
+                            class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+
+                            <div class="relative group">
+                                <div class="absolute w-full bottom-0 left-0">
+                                </div>
+                                <img src="{{ asset('storage/' . $a->image) }}" alt="{{ $a->title }}"
+                                    class="w-full aspect-video lg:aspect-video  object-cover">
+
+                            </div>
+                            <div class="p-3">
+                                <span class="font-bold text-lg">{{ $a->title }}</span>
+                                <p class="font-normal text-sm line-clamp-2 lg:line-clamp-3">
+                                    {{ $a->description }}
+                                </p>
+                                <span class="text-xs">
+                                    <i class="fa-solid fa-clock"></i>
+                                    {{ \Carbon\Carbon::parse($a->created_at)->diffForHumans() }}</span>
+
+                            </div>
+
+                        </div>
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>
