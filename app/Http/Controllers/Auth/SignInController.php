@@ -14,7 +14,7 @@ class SignInController extends Controller
         if (Auth::check()) {
             return redirect()->intended('/banners');
         }
-        return view('auth.login');
+        return view('auth.signin');
     }
 
     // Handle login attempt
