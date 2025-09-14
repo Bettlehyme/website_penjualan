@@ -6,13 +6,13 @@
     <div class="w-full px-6 py-6 mx-auto">
         <!-- cards row 2 -->
         <div class="w-full aspect-[10/3] max-w-full px-3 lg:w-12/12 lg:flex-none">
-            <div class="relative w-full h-full overflow-hidden rounded-2xl bg-gray-100 flex items-center justify-center">
+            <div class="relative w-full h-full aspect-[10/3] overflow-hidden rounded-2xl bg-gray-100 flex items-center justify-center">
 
                 @if ($activeBanners->isNotEmpty())
-                    <div slider class="relative w-full h-full overflow-hidden rounded-2xl">
+                    <div slider class="relative w-full h-full aspect-[10/3] overflow-hidden rounded-2xl">
                         @foreach ($activeBanners as $banner)
                             <div slide class="absolute w-full h-full transition-all duration-500">
-                                <img class="object-cover h-full w-full" src="{{ asset('storage/' . $banner->image) }}"
+                                <img class="object-cover h-full aspect-[10/3] w-full" src="{{ asset('storage/' . $banner->image) }}"
                                     alt="banner image" />
 
                                 <div
