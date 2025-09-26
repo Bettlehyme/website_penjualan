@@ -150,9 +150,14 @@
                         <h5 id="preview-subtitle" class="text-xl font-bold text-slate-800">Select a product</h5>
                         <p id="preview-description" class="text-sm text-slate-500">Product details will appear here.</p>
                         <div class="relative w-full" style="padding-top: 100%;">
-                            <img id="preview-article-image" class="absolute top-0 left-0 w-full h-full object-cover"
+                            <iframe id="preview-article-pdf" class="absolute top-0 left-0 w-full h-full hidden"
+                                style="border:none;"></iframe>
+
+                            <img id="preview-article-image" class="absolute top-0 left-0 w-full h-full object-cover hidden"
                                 src="{{ asset('assets/img/signin-image.jpeg') }}" alt="product image">
                         </div>
+
+
                         <div class="mt-4 grid grid-cols-2 gap-4 text-left text-sm text-slate-600">
                             <p><strong>Brand:</strong> <span id="preview-brand">-</span></p>
                             <p><strong>Model:</strong> <span id="preview-model">-</span></p>
@@ -291,15 +296,18 @@
                             </div>
                             <div class="w-full max-w-full px-3 md:w-12/12">
                                 <div class="mb-4">
-                                    <label class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">Article
-                                        Image</label>
-                                    <input id="articleimageInput" type="file" name="articleimage" accept="image/*"
+                                    <label class="block mb-2 text-xs font-bold text-slate-700 dark:text-white/80">
+                                        Article PDF / Image
+                                    </label>
+                                    <input id="articleimageInput" type="file" name="articleimage"
+                                        accept="application/pdf,image/*"
                                         class="block w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-500 
-                                border border-gray-300 rounded-lg outline-none 
-                                dark:bg-slate-850 dark:text-white 
-                                focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+             border border-gray-300 rounded-lg outline-none 
+             dark:bg-slate-850 dark:text-white 
+             focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                                 </div>
                             </div>
+
                         </div>
 
                         <!-- Footer -->
@@ -315,7 +323,6 @@
                         </div>
 
                     </form>
-                    {{-- ✅ End form --}}
                 </div>
             </div>
         </div>
@@ -522,49 +529,64 @@
         }
 
         function showProduct(row) {
-            const card = document.getElementById("product-card");
+    const card = document.getElementById("product-card");
 
-            // Fill text data
-            document.getElementById("preview-title").textContent = row.dataset.title;
-            document.getElementById("preview-subtitle").textContent = row.dataset.subtitle;
-            document.getElementById("preview-description").textContent = row.dataset.description;
-            document.getElementById("preview-brand").textContent = row.dataset.brand;
-            document.getElementById("preview-model").textContent = row.dataset.model;
-            document.getElementById("preview-year").textContent = row.dataset.year;
-            document.getElementById("preview-price").textContent = row.dataset.price;
+    // Fill text data
+    document.getElementById("preview-title").textContent = row.dataset.title;
+    document.getElementById("preview-subtitle").textContent = row.dataset.subtitle;
+    document.getElementById("preview-description").textContent = row.dataset.description;
+    document.getElementById("preview-brand").textContent = row.dataset.brand;
+    document.getElementById("preview-model").textContent = row.dataset.model;
+    document.getElementById("preview-year").textContent = row.dataset.year;
+    document.getElementById("preview-price").textContent = row.dataset.price;
 
-            // Handle images
-            const mainImage = document.getElementById("preview-main-image");
-            const thumbnails = document.getElementById("preview-thumbnails");
-            const articleImage = document.getElementById("preview-article-image");
+    // Handle images
+    const mainImage = document.getElementById("preview-main-image");
+    const thumbnails = document.getElementById("preview-thumbnails");
 
-            thumbnails.innerHTML = ''; // clear previous thumbnails
-            const articleImg = row.dataset.articleimage ? row.dataset.articleimage : '';
+    thumbnails.innerHTML = ''; // clear previous thumbnails
+    const articleFile = row.dataset.articleimage ? row.dataset.articleimage : '';
 
-            const images = row.dataset.images ? row.dataset.images.split(',') : [];
+    const images = row.dataset.images ? row.dataset.images.split(',') : [];
 
-            if (images.length > 0) {
-                mainImage.src = `/storage/${images[0]}`; // first image as main
-                images.forEach(img => {
-                    const thumb = document.createElement('img');
-                    thumb.src = `/storage/${img}`;
-                    thumb.className =
-                        'h-12 w-12 rounded border border-slate-300 cursor-pointer object-cover hover:ring-2 hover:ring-cyan-500';
-                    thumb.onclick = () => {
-                        mainImage.src = `/storage/${img}`
-                    }; // change main image on click
-                    thumbnails.appendChild(thumb);
-                });
-            } else {
-                mainImage.src = `/assets/img/default-product.png`;
-            }
-            if (articleImage) {
-                articleImage.src = `/storage/${articleImg}`;
+    if (images.length > 0) {
+        mainImage.src = `/storage/${images[0]}`; // first image as main
+        images.forEach(img => {
+            const thumb = document.createElement('img');
+            thumb.src = `/storage/${img}`;
+            thumb.className =
+                'h-12 w-12 rounded border border-slate-300 cursor-pointer object-cover hover:ring-2 hover:ring-cyan-500';
+            thumb.onclick = () => {
+                mainImage.src = `/storage/${img}`;
+            };
+            thumbnails.appendChild(thumb);
+        });
+    } else {
+        mainImage.src = `/assets/img/default-product.png`;
+    }
 
-            } else {
-                articleImage.src = `/assets/img/default-product.png`;
-            }
-            card.classList.remove("hidden");
-        }
+    // Handle article image or PDF
+    const pdfViewer = document.getElementById("preview-article-pdf");
+    const imgViewer = document.getElementById("preview-article-image");
+
+    if (articleFile && articleFile.toLowerCase().endsWith(".pdf")) {
+        const encoded = encodeURIComponent(`/storage/${articleFile}`);
+        pdfViewer.src = `https://docs.google.com/gview?url=${window.location.origin}${encoded}&embedded=true`;
+        pdfViewer.classList.remove("hidden");
+        imgViewer.classList.add("hidden");
+    } else if (articleFile) {
+        imgViewer.src = `/storage/${articleFile}`;
+        imgViewer.classList.remove("hidden");
+        pdfViewer.classList.add("hidden");
+    } else {
+        imgViewer.src = `/assets/img/default-product.png`;
+        imgViewer.classList.remove("hidden");
+        pdfViewer.classList.add("hidden");
+    }
+
+    // Show card
+    card.classList.remove("hidden");
+}
+
     </script>
 @endsection

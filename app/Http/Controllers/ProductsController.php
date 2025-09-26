@@ -39,30 +39,38 @@ class ProductsController extends Controller
                 'year'         => 'required|string|max:4',
                 'images'       => 'nullable|array',
                 'images.*'     => 'nullable|image|mimes:jpg,jpeg,png',
-                'articleimage' => 'nullable|image|mimes:jpg,jpeg,png',
+                // accept both images & pdf
+                'articleimage' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
             ]);
 
             DB::beginTransaction();
 
-            // ✅ Handle article image first (optional)
+            // Handle article image/pdf
             $articleImagePath = null;
             if ($request->hasFile('articleimage')) {
-                $articleImagePath = $request->file('articleimage')->store('products/article', 'public');
+                $extension = $request->file('articleimage')->getClientOriginalExtension();
+
+                // store PDFs in a different folder if you like
+                if ($extension === 'pdf') {
+                    $articleImagePath = $request->file('articleimage')->store('products/article/pdfs', 'public');
+                } else {
+                    $articleImagePath = $request->file('articleimage')->store('products/article/images', 'public');
+                }
             }
 
-            // ✅ Create product with article image
+            // Create product
             $product = Products::create([
-                'title'         => $validated['title'],
-                'subtitle'      => $validated['subtitle'],
-                'description'   => $validated['description'],
-                'price'         => $validated['price'],
-                'brand'         => $validated['brand'],
-                'model'         => $validated['model'],
-                'year'          => $validated['year'],
-                'articleimage' => $articleImagePath, // make sure column exists
+                'title'        => $validated['title'],
+                'subtitle'     => $validated['subtitle'],
+                'description'  => $validated['description'],
+                'price'        => $validated['price'],
+                'brand'        => $validated['brand'],
+                'model'        => $validated['model'],
+                'year'         => $validated['year'],
+                'articleimage' => $articleImagePath, // store path regardless of file type
             ]);
 
-            // ✅ Handle gallery images
+            // Handle gallery images
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $index => $image) {
                     $path = $image->store('products', 'public');
@@ -90,6 +98,7 @@ class ProductsController extends Controller
             ]);
         }
     }
+
 
 
 
@@ -131,13 +140,15 @@ class ProductsController extends Controller
                 'year'         => 'required|string|max:4',
                 'images'       => 'nullable|array',
                 'images.*'     => 'nullable|image|mimes:jpg,jpeg,png',
-                'articleimage' => 'nullable|image|mimes:jpg,jpeg,png',
+                // accept images + pdf
+                'articleimage' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
             ]);
 
             DB::beginTransaction();
 
             $product = Products::findOrFail($id);
 
+            // Update product base fields
             $product->update([
                 'title'       => $validated['title'],
                 'subtitle'    => $validated['subtitle'],
@@ -148,7 +159,7 @@ class ProductsController extends Controller
                 'year'        => $validated['year'],
             ]);
 
-            // ✅ Handle gallery images
+            // Handle gallery images
             if ($request->hasFile('images')) {
                 // delete old gallery
                 foreach ($product->images as $oldImage) {
@@ -168,14 +179,20 @@ class ProductsController extends Controller
                 }
             }
 
-            // ✅ Handle article cover image
+            // Handle article image / pdf
             if ($request->hasFile('articleimage')) {
-                // delete old article image if exists
-                if ($product->article_image) {
-                    Storage::disk('public')->delete($product->article_image);
+                // delete old file if exists
+                if ($product->articleimage) {
+                    Storage::disk('public')->delete($product->articleimage);
                 }
 
-                $articleImagePath = $request->file('articleimage')->store('products', 'public');
+                $extension = $request->file('articleimage')->getClientOriginalExtension();
+
+                if ($extension === 'pdf') {
+                    $articleImagePath = $request->file('articleimage')->store('products/article/pdfs', 'public');
+                } else {
+                    $articleImagePath = $request->file('articleimage')->store('products/article/images', 'public');
+                }
 
                 $product->update([
                     'articleimage' => $articleImagePath
@@ -197,7 +214,6 @@ class ProductsController extends Controller
             ]);
         }
     }
-
 
 
     /**

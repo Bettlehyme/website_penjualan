@@ -45,6 +45,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
+            'mime_type_detection' => true,
         ],
 
         's3' => [
