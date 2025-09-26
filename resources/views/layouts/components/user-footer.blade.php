@@ -1,8 +1,8 @@
 <footer class="py-12">
     <div class="container border-t pt-10">
         <div class="flex flex-wrap -mx-3">
-            <a href="/sign-in" target="_blank" class="mb-2 mr-4 text-slate-400 sm:mb-0 xl:mr-12"> Admin?
-            </a>
+            {{-- <a href="/sign-in" target="_blank" class="mb-2 mr-4 text-slate-400 sm:mb-0 xl:mr-12"> Admin?
+            </a> --}}
 
         </div>
         <div class="flex flex-col md:flex-row lg:flex-row justify-center gap-10  mb-10">

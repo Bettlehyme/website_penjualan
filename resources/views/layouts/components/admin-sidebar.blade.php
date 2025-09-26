@@ -12,7 +12,7 @@
         <img src="{{setting('logo') ? asset('storage/' . setting('logo')) : 'https://via.placeholder.com/100'}}"
                 class="hidden h-full max-w-full transition-all duration-200 dark:inline ease-nav-brand max-h-8"
                 alt="main_logo" />
-            <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">{{setting('site_name')}}</span>
+            {{-- <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">{{setting('site_name')}}</span> --}}
         </a>
     </div>
 

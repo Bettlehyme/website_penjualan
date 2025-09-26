@@ -5,9 +5,9 @@
             class="flex items-center py-1.75 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0">
             <!-- Logo -->
             <img src="{{ setting('logo') ? asset('storage/' . setting('logo')) : 'https://via.placeholder.com/100' }}"
-                alt="Logo" class="h-7 w-7 mr-2 object-contain">
+                alt="Logo" class="w-6/12  object-contain">
             <!-- Link text -->
-            {{ setting('site_name') }}
+            {{-- {{ setting('site_name') }} --}}
         </a>
         <button navbar-trigger
             class="px-3 py-1 ml-2 leading-none transition-all ease-in-out bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg lg:hidden"
@@ -23,7 +23,7 @@
         </button>
 
         <div navbar-menu
-            class="flex relative w-10/12 h-fit pt-1 lg:pl-20 justify-between transition-all duration-500 ease lg-max:max-h-0 basis-full flex-col lg:flex-row lg:basis-auto 
+            class="flex relative w-12/12 h-fit pt-1 justify-between transition-all duration-500 ease lg-max:max-h-0 basis-full flex-col lg:flex-row lg:basis-auto 
            overflow-hidden md:overflow-visible">
             <ul class="flex relative flex-col w-full pl-0  mb-0 list-none lg:flex-row ">
                 <li>
