@@ -27,7 +27,8 @@
                                 </div>
                             @endforeach
                             <!-- Fullscreen Image Modal -->
-                            <div id="imageModal" class="fixed inset-0 w-[100vw] h-[100vh]  bg-black/80 hidden items-center justify-center z-50">
+                            <div id="imageModal"
+                                class="fixed inset-0 w-[100vw] h-[100vh]  bg-black/80 hidden items-center justify-center z-50">
                                 <img id="modalImg" class="zoomable max-w-[90%] max-h-[90%] rounded-lg shadow-lg" />
                             </div>
                             <!-- Control buttons -->
@@ -62,11 +63,31 @@
                     </div>
                     <!-- Image -->
                     <div
-                        class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 ">
-                        <img src="{{ asset('storage/' . $product->articleimage) }}" alt="Article Image"
-                            class="w-full h-auto rounded-lg shadow-lg">
+                        class="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3">
+                        @php
+                            $articleFile = $product->articleimage ? asset('storage/' . $product->articleimage) : null;
+                            $isPdf =
+                                $product->articleimage &&
+                                \Illuminate\Support\Str::endsWith(strtolower($product->articleimage), '.pdf');
+                        @endphp
 
+                        @if ($articleFile)
+                            @if ($isPdf)
+                                {{-- PDF Viewer --}}
+                                <iframe src="https://docs.google.com/gview?url={{ urlencode($articleFile) }}&embedded=true"
+                                    class="w-full h-[100vh] rounded-lg shadow-lg" frameborder="0"></iframe>
+                            @else
+                                {{-- Image Viewer --}}
+                                <img src="{{ $articleFile }}" alt="Article Image"
+                                    class="w-full h-auto rounded-lg shadow-lg">
+                            @endif
+                        @else
+                            {{-- Default fallback --}}
+                            <img src="{{ asset('assets/img/default-product.png') }}" alt="Default Image"
+                                class="w-full h-auto rounded-lg shadow-lg">
+                        @endif
                     </div>
+
                     <!-- Actions -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 mt-10">
@@ -134,34 +155,34 @@
                 </div>
             </div>
             <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-                    @foreach ($articles as $a)
-                        <a href="{{ route('article-page', encrypt($a->id)) }}">
+                @foreach ($articles as $a)
+                    <a href="{{ route('article-page', encrypt($a->id)) }}">
 
-                            <div
-                                class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
+                        <div
+                            class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
 
-                                <div class="relative group">
-                                    <div class="absolute w-full bottom-0 left-0">
-                                    </div>
-                                    <img src="{{ asset('storage/' . $a->image) }}" alt="{{ $a->title }}"
-                                        class="w-full aspect-video lg:aspect-video  object-cover">
-
+                            <div class="relative group">
+                                <div class="absolute w-full bottom-0 left-0">
                                 </div>
-                                <div class="p-3">
-                                    <span class="font-bold text-lg">{{ $a->title }}</span>
-                                    <p class="font-normal text-sm line-clamp-2 lg:line-clamp-3">
-                                        {{ $a->description }}
-                                    </p>
-                                    <span class="text-xs">
-                                        <i class="fa-solid fa-clock"></i>
-                                        {{ \Carbon\Carbon::parse($a->created_at)->diffForHumans() }}</span>
-
-                                </div>
+                                <img src="{{ asset('storage/' . $a->image) }}" alt="{{ $a->title }}"
+                                    class="w-full aspect-video lg:aspect-video  object-cover">
 
                             </div>
-                        </a>
-                    @endforeach
-                </div>
+                            <div class="p-3">
+                                <span class="font-bold text-lg">{{ $a->title }}</span>
+                                <p class="font-normal text-sm line-clamp-2 lg:line-clamp-3">
+                                    {{ $a->description }}
+                                </p>
+                                <span class="text-xs">
+                                    <i class="fa-solid fa-clock"></i>
+                                    {{ \Carbon\Carbon::parse($a->created_at)->diffForHumans() }}</span>
+
+                            </div>
+
+                        </div>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </div>
     <script>
