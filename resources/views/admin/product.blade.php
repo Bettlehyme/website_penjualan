@@ -197,6 +197,8 @@
                         @csrf
                         <input type="hidden" id="formMethod" name="_method" value="POST">
                         <input type="hidden" id="productId" name="id">
+                        <input type="hidden" id="imageOrder" name="image_order">
+                        <input type="hidden" id="deletedImages" name="deleted_images">
 
                         <div class="flex flex-wrap  overflow-x-hidden pb-10">
                             <!-- Upload Images -->
@@ -313,7 +315,7 @@
                         <!-- Footer -->
                         <div class="fixed flex w-full p-5 bg-white shadow-md  justify-end gap-2 bottom-0 left-0 rigth-0">
                             <button type="button" id="cancelModalBtn"
-                                class="inline-block px-8 py-2 font-bold text-center text-slate bg-gray-500 rounded-lg text-xs hover:shadow-md">
+                                class="inline-block px-8 py-2 font-bold text-center text-white bg-gray-500 rounded-lg text-xs hover:shadow-md">
                                 Cancel
                             </button>
                             <button type="submit" id="saveBtn"
@@ -366,7 +368,15 @@
             document.getElementById('formMethod').value = 'POST';
             document.getElementById('productId').value = '';
             modalTitle.textContent = "Add Product";
+
+            // ✅ Clear image previews
+            document.getElementById('preview-container').innerHTML = "";
+
+            // ✅ Reset hidden fields
+            document.getElementById('imageOrder').value = "[]";
+            document.getElementById('deletedImages').value = "[]";
         }
+
 
         // --- Setup Edit Mode ---
         function setEditMode(product) {
@@ -395,47 +405,37 @@
                     wrapper.className = "relative h-full cursor-move";
                     wrapper.draggable = true;
                     wrapper.dataset.index = index;
+                    wrapper.dataset.id = img.id; // DB id of the image
 
                     const imageTag = document.createElement("img");
-                    imageTag.src = `/storage/${img.path}`; // path from DB
+                    imageTag.src = `/storage/${img.path}`;
                     imageTag.className = "w-24 h-24 object-cover rounded-lg border border-gray-300 shadow-sm";
 
                     const label = document.createElement("span");
                     label.textContent = index + 1;
                     label.className = "absolute top-1 left-1 bg-blue-600 text-white text-xs px-1 rounded";
 
+                    // ❌ delete button
+                    const delBtn = document.createElement("button");
+                    delBtn.innerHTML = "✕";
+                    delBtn.type = "button";
+                    delBtn.className =
+                        "absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded hover:bg-red-700";
+                    delBtn.onclick = () => {
+                        wrapper.dataset.deleted = "true"; // ✅ mark as deleted
+                        wrapper.style.display = "none"; // hide from UI but keep in DOM
+                        updateLabels();
+                    };
+
                     wrapper.appendChild(imageTag);
                     wrapper.appendChild(label);
-
-                    // enable drag reorder (reuse your existing logic)
-                    wrapper.addEventListener("dragstart", () => {
-                        draggedItem = wrapper;
-                        setTimeout(() => wrapper.classList.add("opacity-50"), 0);
-                    });
-                    wrapper.addEventListener("dragend", () => {
-                        draggedItem.classList.remove("opacity-50");
-                        draggedItem = null;
-                        updateLabels();
-                    });
-                    wrapper.addEventListener("dragover", e => e.preventDefault());
-                    wrapper.addEventListener("drop", () => {
-                        if (draggedItem !== wrapper) {
-                            const children = Array.from(container.children);
-                            const draggedIndex = children.indexOf(draggedItem);
-                            const targetIndex = children.indexOf(wrapper);
-
-                            if (draggedIndex < targetIndex) {
-                                container.insertBefore(draggedItem, wrapper.nextSibling);
-                            } else {
-                                container.insertBefore(draggedItem, wrapper);
-                            }
-                            updateLabels();
-                        }
-                    });
+                    wrapper.appendChild(delBtn);
+                    enableDrag(wrapper, container);
 
                     container.appendChild(wrapper);
                 });
             }
+
         }
 
 
@@ -473,6 +473,8 @@
                 const reader = new FileReader();
                 reader.onload = e => {
                     const wrapper = document.createElement("div");
+                    const delBtn = document.createElement("button");
+
                     wrapper.className = "relative  h-full cursor-move";
                     wrapper.draggable = true;
                     wrapper.dataset.index = index;
@@ -514,79 +516,147 @@
                         }
                     });
 
+                    delBtn.innerHTML = "✕";
+                    delBtn.type = "button";
+                    delBtn.className =
+                        "absolute top-1 right-1 bg-red-600 text-white text-xs px-1 rounded hover:bg-red-700";
+                    delBtn.onclick = () => {
+                        wrapper.remove();
+                        updateLabels();
+                    };
+                    wrapper.appendChild(delBtn);
+
+
                     container.appendChild(wrapper);
                 };
                 reader.readAsDataURL(file);
             });
         }
 
-        function updateLabels() {
-            const container = document.getElementById('preview-container');
-            Array.from(container.children).forEach((child, idx) => {
-                const label = child.querySelector("span");
-                label.textContent = idx + 1; // update numbering
+        function enableDrag(wrapper, container) {
+            wrapper.addEventListener("dragstart", () => {
+                draggedItem = wrapper;
+                setTimeout(() => wrapper.classList.add("opacity-50"), 0);
+            });
+            wrapper.addEventListener("dragend", () => {
+                draggedItem.classList.remove("opacity-50");
+                draggedItem = null;
+                updateLabels();
+            });
+            wrapper.addEventListener("dragover", e => e.preventDefault());
+            wrapper.addEventListener("drop", () => {
+                if (draggedItem !== wrapper) {
+                    const children = Array.from(container.children);
+                    const draggedIndex = children.indexOf(draggedItem);
+                    const targetIndex = children.indexOf(wrapper);
+
+                    if (draggedIndex < targetIndex) {
+                        container.insertBefore(draggedItem, wrapper.nextSibling);
+                    } else {
+                        container.insertBefore(draggedItem, wrapper);
+                    }
+                    updateLabels();
+                }
             });
         }
 
+        function updateLabels() {
+            const container = document.getElementById('preview-container');
+            const order = [];
+            const deleted = [];
+
+            Array.from(container.children).forEach((child, idx) => {
+                if (child.dataset.deleted === "true") {
+                    if (child.dataset.id) deleted.push(child.dataset.id);
+                    return; // skip deleted from order
+                }
+
+                const label = child.querySelector("span");
+                if (label) label.textContent = idx + 1;
+
+                if (child.dataset.id) {
+                    order.push({
+                        id: child.dataset.id,
+                        position: idx + 1
+                    });
+                } else if (child.dataset.tempId) {
+                    order.push({
+                        tempId: child.dataset.tempId,
+                        position: idx + 1
+                    });
+                }
+            });
+
+            document.getElementById("imageOrder").value = JSON.stringify(order);
+            document.getElementById("deletedImages").value = JSON.stringify(deleted);
+
+            // 🔍 Debug
+            console.log("Order sent:", order);
+            console.log("Deleted sent:", deleted);
+        }
+
+
+
+
+
         function showProduct(row) {
-    const card = document.getElementById("product-card");
+            const card = document.getElementById("product-card");
 
-    // Fill text data
-    document.getElementById("preview-title").textContent = row.dataset.title;
-    document.getElementById("preview-subtitle").textContent = row.dataset.subtitle;
-    document.getElementById("preview-description").textContent = row.dataset.description;
-    document.getElementById("preview-brand").textContent = row.dataset.brand;
-    document.getElementById("preview-model").textContent = row.dataset.model;
-    document.getElementById("preview-year").textContent = row.dataset.year;
-    document.getElementById("preview-price").textContent = row.dataset.price;
+            // Fill text data
+            document.getElementById("preview-title").textContent = row.dataset.title;
+            document.getElementById("preview-subtitle").textContent = row.dataset.subtitle;
+            document.getElementById("preview-description").textContent = row.dataset.description;
+            document.getElementById("preview-brand").textContent = row.dataset.brand;
+            document.getElementById("preview-model").textContent = row.dataset.model;
+            document.getElementById("preview-year").textContent = row.dataset.year;
+            document.getElementById("preview-price").textContent = row.dataset.price;
 
-    // Handle images
-    const mainImage = document.getElementById("preview-main-image");
-    const thumbnails = document.getElementById("preview-thumbnails");
+            // Handle images
+            const mainImage = document.getElementById("preview-main-image");
+            const thumbnails = document.getElementById("preview-thumbnails");
 
-    thumbnails.innerHTML = ''; // clear previous thumbnails
-    const articleFile = row.dataset.articleimage ? row.dataset.articleimage : '';
+            thumbnails.innerHTML = ''; // clear previous thumbnails
+            const articleFile = row.dataset.articleimage ? row.dataset.articleimage : '';
 
-    const images = row.dataset.images ? row.dataset.images.split(',') : [];
+            const images = row.dataset.images ? row.dataset.images.split(',') : [];
 
-    if (images.length > 0) {
-        mainImage.src = `/storage/${images[0]}`; // first image as main
-        images.forEach(img => {
-            const thumb = document.createElement('img');
-            thumb.src = `/storage/${img}`;
-            thumb.className =
-                'h-12 w-12 rounded border border-slate-300 cursor-pointer object-cover hover:ring-2 hover:ring-cyan-500';
-            thumb.onclick = () => {
-                mainImage.src = `/storage/${img}`;
-            };
-            thumbnails.appendChild(thumb);
-        });
-    } else {
-        mainImage.src = `/assets/img/default-product.png`;
-    }
+            if (images.length > 0) {
+                mainImage.src = `/storage/${images[0]}`; // first image as main
+                images.forEach(img => {
+                    const thumb = document.createElement('img');
+                    thumb.src = `/storage/${img}`;
+                    thumb.className =
+                        'h-12 w-12 rounded border border-slate-300 cursor-pointer object-cover hover:ring-2 hover:ring-cyan-500';
+                    thumb.onclick = () => {
+                        mainImage.src = `/storage/${img}`;
+                    };
+                    thumbnails.appendChild(thumb);
+                });
+            } else {
+                mainImage.src = `/assets/img/default-product.png`;
+            }
 
-    // Handle article image or PDF
-    const pdfViewer = document.getElementById("preview-article-pdf");
-    const imgViewer = document.getElementById("preview-article-image");
+            // Handle article image or PDF
+            const pdfViewer = document.getElementById("preview-article-pdf");
+            const imgViewer = document.getElementById("preview-article-image");
 
-    if (articleFile && articleFile.toLowerCase().endsWith(".pdf")) {
-        const encoded = encodeURIComponent(`/storage/${articleFile}`);
-        pdfViewer.src = `https://docs.google.com/gview?url=${window.location.origin}${encoded}&embedded=true`;
-        pdfViewer.classList.remove("hidden");
-        imgViewer.classList.add("hidden");
-    } else if (articleFile) {
-        imgViewer.src = `/storage/${articleFile}`;
-        imgViewer.classList.remove("hidden");
-        pdfViewer.classList.add("hidden");
-    } else {
-        imgViewer.src = `/assets/img/default-product.png`;
-        imgViewer.classList.remove("hidden");
-        pdfViewer.classList.add("hidden");
-    }
+            if (articleFile && articleFile.toLowerCase().endsWith(".pdf")) {
+                const encoded = encodeURIComponent(`/storage/${articleFile}`);
+                pdfViewer.src = `https://docs.google.com/gview?url=${window.location.origin}${encoded}&embedded=true`;
+                pdfViewer.classList.remove("hidden");
+                imgViewer.classList.add("hidden");
+            } else if (articleFile) {
+                imgViewer.src = `/storage/${articleFile}`;
+                imgViewer.classList.remove("hidden");
+                pdfViewer.classList.add("hidden");
+            } else {
+                imgViewer.src = `/assets/img/default-product.png`;
+                imgViewer.classList.remove("hidden");
+                pdfViewer.classList.add("hidden");
+            }
 
-    // Show card
-    card.classList.remove("hidden");
-}
-
+            // Show card
+            card.classList.remove("hidden");
+        }
     </script>
 @endsection

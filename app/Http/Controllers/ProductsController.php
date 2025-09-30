@@ -129,6 +129,8 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         try {
             $validated = $request->validate([
                 'title'        => 'required|string|max:255',
@@ -140,15 +142,15 @@ class ProductsController extends Controller
                 'year'         => 'required|string|max:4',
                 'images'       => 'nullable|array',
                 'images.*'     => 'nullable|image|mimes:jpg,jpeg,png',
-                // accept images + pdf
                 'articleimage' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+                'image_order'  => 'nullable|string', // JSON from hidden input
             ]);
 
             DB::beginTransaction();
 
             $product = Products::findOrFail($id);
 
-            // Update product base fields
+            // 🔹 Update base fields
             $product->update([
                 'title'       => $validated['title'],
                 'subtitle'    => $validated['subtitle'],
@@ -159,35 +161,51 @@ class ProductsController extends Controller
                 'year'        => $validated['year'],
             ]);
 
-            // Handle gallery images
-            if ($request->hasFile('images')) {
-                // delete old gallery
-                foreach ($product->images as $oldImage) {
-                    Storage::disk('public')->delete($oldImage->path);
-                    $oldImage->delete();
+            // 🔹 Add new gallery images (don't delete old ones)
+            $newFiles = $request->file('images', []);
+            $newIndex = 0;
+
+            // 🔹 Process ordering (both existing + new)
+            if ($request->filled('image_order')) {
+                $order = json_decode($request->input('image_order'), true);
+
+                foreach ($order as $item) {
+                    if (isset($item['id'])) {
+                        // existing image → just reorder
+                        ProductImage::where('id', $item['id'])
+                            ->where('product_id', $product->product_id)
+                            ->update(['position' => $item['position']]);
+                    } elseif (isset($item['tempId']) && isset($newFiles[$newIndex])) {
+                        // new image → create at correct position
+                        $path = $newFiles[$newIndex]->store('products', 'public');
+                        ProductImage::create([
+                            'product_id' => $product->product_id,
+                            'path'       => $path,
+                            'position'   => $item['position'],
+                        ]);
+                        $newIndex++;
+                    }
                 }
-
-                // upload new gallery
-                foreach ($request->file('images') as $index => $image) {
-                    $path = $image->store('products', 'public');
-
+            } else {
+                // fallback: if no order info, just append new images at the end
+                $lastPos = $product->images()->max('position') ?? 0;
+                foreach ($newFiles as $i => $file) {
+                    $path = $file->store('products', 'public');
                     ProductImage::create([
                         'product_id' => $product->product_id,
                         'path'       => $path,
-                        'position'   => $index,
+                        'position'   => $lastPos + $i + 1,
                     ]);
                 }
             }
 
-            // Handle article image / pdf
+            // 🔹 Handle article image / PDF
             if ($request->hasFile('articleimage')) {
-                // delete old file if exists
                 if ($product->articleimage) {
                     Storage::disk('public')->delete($product->articleimage);
                 }
 
                 $extension = $request->file('articleimage')->getClientOriginalExtension();
-
                 if ($extension === 'pdf') {
                     $articleImagePath = $request->file('articleimage')->store('products/article/pdfs', 'public');
                 } else {
@@ -199,12 +217,23 @@ class ProductsController extends Controller
                 ]);
             }
 
-            DB::commit();
+            // Handle deleted images
+            if ($request->filled('deleted_images')) {
+                $deleted = json_decode($request->deleted_images, true);
+                foreach ($deleted as $id) {
+                    $img = ProductImage::find($id);
+                    if ($img) {
+                        Storage::disk('public')->delete($img->path);
+                        $img->delete();
+                    }
+                }
+            }
 
+
+            DB::commit();
             return redirect()->back()->with('success', 'Product updated successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-
             Log::error('Product update failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
@@ -214,6 +243,7 @@ class ProductsController extends Controller
             ]);
         }
     }
+
 
 
     /**

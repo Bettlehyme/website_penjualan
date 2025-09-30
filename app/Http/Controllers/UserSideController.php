@@ -15,10 +15,10 @@ class UserSideController extends Controller
         $products = Products::with('images')->limit(4)->get();
         $articles = Article::limit(4)->get();
         $gallery = Galeri::limit(4)->get();
-   
+
         $activeBanners = Banners::where('is_active', true)->get();
         $banners = Banners::orderBy('order')->get();
-        return view('user.home', ['banners' => $banners, 'activeBanners' => $activeBanners, 'products' => $products , 'products' => $products, 'articles' => $articles, 'gallery' => $gallery]);
+        return view('user.home', ['banners' => $banners, 'activeBanners' => $activeBanners, 'products' => $products, 'products' => $products, 'articles' => $articles, 'gallery' => $gallery]);
     }
 
     public function indexPriceList()
@@ -42,7 +42,7 @@ class UserSideController extends Controller
         return view('user.articles', compact('articles'));
     }
 
-     public function indexGallery()
+    public function indexGallery()
     {
         $gallery = Galeri::get();
         return view('user.gallery', ['gallery' => $gallery]);
@@ -67,9 +67,12 @@ class UserSideController extends Controller
     {
         $products = Products::with('images')->limit(4)->get();
         $articles = Article::limit(4)->get();
-        $product = Products::with('images')
+        $product = Products::with(['images' => function ($q) {
+            $q->orderBy('position', 'asc'); // or 'desc' if you want reverse order
+        }])
             ->where('product_id', decrypt($id))
             ->firstOrFail();
+
 
         return view('user.product-page', ['product' => $product, 'products' => $products, 'articles' => $articles]);
     }

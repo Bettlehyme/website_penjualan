@@ -2,10 +2,10 @@
     class="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center py-2 shadow-sm bg-white/80 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
     <div class="container flex items-center justify-between w-full p-0 px-6 mx-auto flex-wrap-inherit">
         <a href="/"
-            class="flex items-center py-1.75 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0">
+            class="flex items-center py-1.75 w-4/12  text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0">
             <!-- Logo -->
             <img src="{{ setting('logo') ? asset('storage/' . setting('logo')) : 'https://via.placeholder.com/100' }}"
-                alt="Logo" class="w-6/12  object-contain">
+                alt="Logo" class="w-12/12 lg:w-6/12  object-contain">
             <!-- Link text -->
             {{-- {{ setting('site_name') }} --}}
         </a>

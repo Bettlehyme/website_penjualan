@@ -113,7 +113,7 @@
 
             <!-- Modal card -->
             <div
-                class="absolute bg-white dark:bg-slate-850 rounded-2xl shadow-xl max-w-3xl w-fit p-6 
+                class="absolute bg-white dark:bg-slate-850 rounded-2xl shadow-xl max-w-3xl  p-6 
     transform transition-all duration-300 opacity-0 scale-95">
 
                 <!-- Header -->
@@ -126,7 +126,7 @@
                 </div>
 
                 <!-- Body -->
-                <div class="flex-auto max-h-[70vh] overflow-y-auto pr-2">
+                <div class="flex-auto max-h-[70vh] w-full overflow-y-none pr-2">
 
                     {{-- ✅ Start form --}}
                     <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
@@ -180,7 +180,7 @@
                         <!-- Footer -->
                         <div class="flex justify-end gap-2 mt-4">
                             <button type="button" id="cancelUserModalBtn" onclick="closeModal()"
-                                class="inline-block px-8 py-2 font-bold leading-normal text-center text-slate align-middle transition-all ease-in bg-gray-500 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85">
+                                class="inline-block px-8 py-2 font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-gray-500 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85">
                                 Cancel
                             </button>
                             <button type="submit"
