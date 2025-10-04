@@ -12,7 +12,7 @@ class UserSideController extends Controller
 {
     public function indexHome()
     {
-        $products = Products::with('images')->limit(4)->get();
+        $products = Products::with('galleryImages')->limit(4)->get();
         $articles = Article::limit(4)->get();
         $gallery = Galeri::limit(4)->get();
 
@@ -50,7 +50,7 @@ class UserSideController extends Controller
 
     public function indexProducts(Request $request)
     {
-        $query = Products::with('images');
+        $query = Products::with('galleryImages');
 
 
         if ($request->has('search') && $request->search != '') {
@@ -65,20 +65,19 @@ class UserSideController extends Controller
     }
     public function productPage($id)
     {
-        $products = Products::with('images')->limit(4)->get();
+        $products = Products::with('galleryImages')->limit(4)->get();
         $articles = Article::limit(4)->get();
-        $product = Products::with(['images' => function ($q) {
-            $q->orderBy('position', 'asc'); // or 'desc' if you want reverse order
-        }])
+        $product = Products::with(['articleImages', 'galleryImages'])
             ->where('product_id', decrypt($id))
             ->firstOrFail();
+
 
 
         return view('user.product-page', ['product' => $product, 'products' => $products, 'articles' => $articles]);
     }
     public function articlePage($id)
     {
-        $products = Products::with('images')->limit(4)->get();
+        $products = Products::with('galleryImages')->limit(4)->get();
         $articles = Article::limit(4)->get();
         $article = Article::where('id', decrypt($id))
             ->firstOrFail();

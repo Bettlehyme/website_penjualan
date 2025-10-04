@@ -19,6 +19,7 @@ return new class extends Migration
                 ->on('products')
                 ->onDelete('cascade');
             $table->string('path'); 
+            $table->string('type'); 
             $table->integer('position')->default(0); 
             $table->softDeletes();
             $table->timestamps();

@@ -56,24 +56,20 @@ class SiteSettingsController extends Controller
     {
         $data = $request->except(['_token', '_method', 'site_logo', 'sales_photo', 'price_list']);
 
-        // ✅ Save text-based settings
         foreach ($data as $key => $value) {
             Settings::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
-        // ✅ Handle Logo Upload
         if ($request->hasFile('site_logo')) {
             $path = $request->file('site_logo')->store('logos', 'public');
             Settings::updateOrCreate(['key' => 'logo'], ['value' => $path]);
         }
 
-        // ✅ Handle Sales Photo Upload
         if ($request->hasFile('sales_photo')) {
             $path = $request->file('sales_photo')->store('sales', 'public');
             Settings::updateOrCreate(['key' => 'sales_photo'], ['value' => $path]);
         }
 
-        // ✅ Handle Price List Image Upload
         if ($request->hasFile('price_list')) {
             $path = $request->file('price_list')->store('price_lists', 'public');
             Settings::updateOrCreate(['key' => 'price_list'], ['value' => $path]);

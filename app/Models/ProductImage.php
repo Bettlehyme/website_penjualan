@@ -18,10 +18,22 @@ class ProductImage extends Model
         'product_id',
         'path',
         'position',
+        'type',
+
     ];
 
     public function product()
     {
         return $this->belongsTo(Products::class, 'product_id', 'product_id');
+    }
+
+    public function scopeArticles($query)
+    {
+        return $query->where('type', 'article');
+    }
+
+    public function scopeGalleries($query)
+    {
+        return $query->where('type', 'gallery');
     }
 }

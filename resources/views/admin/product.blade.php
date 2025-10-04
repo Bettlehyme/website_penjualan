@@ -60,8 +60,8 @@
                                                     data-description="{{ $product->description }}"
                                                     data-brand="{{ $product->brand }}" data-model="{{ $product->model }}"
                                                     data-year="{{ $product->year }}" data-price="{{ $product->price }}"
-                                                    data-articleimage="{{ $product->articleimage }}"
-                                                    data-images="{{ $product->images->pluck('path')->implode(',') }}">
+                                                    data-articleimage="{{ optional($product->articleImages->first())->path }}"
+                                                    data-images="{{ $product->galleryImages->pluck('path')->implode(',') }}">
                                                     <td
                                                         class="px-6 p-2 align-middle border-b dark:border-white/40 whitespace-nowrap">
                                                         <div class="flex flex-col">
@@ -143,7 +143,8 @@
                     <!-- Thumbnails / carousel -->
                     <div id="preview-thumbnails" class="flex justify-center mt-4 space-x-2">
                         <img src="{{ asset('assets/img/home-image-1.jpeg') }}"
-                            class="h-12 w-12 rounded border border-slate-300 object-cover" alt="placeholder">
+                        class="h-12 w-12 rounded border border-slate-300 object-cover"
+                            alt="placeholder">
                     </div>
 
                     <div class="p-6 text-center">
@@ -399,8 +400,8 @@
             const container = document.getElementById('preview-container');
             container.innerHTML = "";
 
-            if (product.images && product.images.length > 0) {
-                product.images.forEach((img, index) => {
+            if (product.gallery_images && product.gallery_images.length > 0) {
+                product.gallery_images.forEach((img, index) => {
                     const wrapper = document.createElement("div");
                     wrapper.className = "relative h-full cursor-move";
                     wrapper.draggable = true;
@@ -415,7 +416,6 @@
                     label.textContent = index + 1;
                     label.className = "absolute top-1 left-1 bg-blue-600 text-white text-xs px-1 rounded";
 
-                    // ❌ delete button
                     const delBtn = document.createElement("button");
                     delBtn.innerHTML = "✕";
                     delBtn.type = "button";
@@ -617,7 +617,7 @@
 
             thumbnails.innerHTML = ''; // clear previous thumbnails
             const articleFile = row.dataset.articleimage ? row.dataset.articleimage : '';
-
+            console.log("Article file:", row.dataset);
             const images = row.dataset.images ? row.dataset.images.split(',') : [];
 
             if (images.length > 0) {

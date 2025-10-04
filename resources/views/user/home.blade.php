@@ -83,6 +83,7 @@
                 </div>
 
                 <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+                    {{-- @dd($products  ) --}}
                     @foreach ($products as $p)
                         <div
                             class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
@@ -106,8 +107,9 @@
                                             {{ rupiah($p->price) }}</span>
                                     </div>
                                 </div> --}}
-                                <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
-                                    class="w-full aspect-video lg:aspect-video  object-cover">
+                                <img src="{{ asset('storage/' . optional($p->galleryImages->first())->path ?? 'assets/img/default-product.png') }}"
+                                    alt="{{ $p->title }}" class="w-full aspect-video object-cover">
+
 
                                 <!-- Hover overlay -->
                                 <a href="{{ route('product-page', encrypt($p->product_id)) }}"

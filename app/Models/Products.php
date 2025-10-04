@@ -35,4 +35,17 @@ class Products extends Model
     {
         return $this->hasMany(ProductImage::class, 'product_id', 'product_id')->orderByDesc('position');
     }
+
+    public function articleImages()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'product_id')
+            ->articles();
+    }
+
+    public function galleryImages()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'product_id')
+            ->galleries()
+            ->orderBy('position');
+    }
 }

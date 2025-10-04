@@ -19,7 +19,7 @@
                         <!-- Images Wrapper -->
                         <div slider
                             class="relative w-full aspect-[4/3] md:aspect-[8/3] lg:aspect-[8/3]  overflow-hidden rounded-2xl   ">
-                            @foreach ($product->images as $image)
+                            @foreach ($product->galleryImages as $image)
                                 <div slide class="absolute w-full  h-full transition-all duration-500">
                                     <img class="w-full h-full overflow-hidden object-cover cursor-pointer"
                                         src="{{ asset('storage/' . $image->path) }}" alt="banner image"
@@ -63,31 +63,18 @@
                     </div>
                     <!-- Image -->
                     <div
-                        class="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3">
-                        @php
-                            $articleFile = $product->articleimage ? asset('storage/' . $product->articleimage) : null;
-                            $isPdf =
-                                $product->articleimage &&
-                                \Illuminate\Support\Str::endsWith(strtolower($product->articleimage), '.pdf');
-                        @endphp
-
-                        @if ($articleFile)
-                            @if ($isPdf)
-                                {{-- PDF Viewer --}}
-                                <iframe src="https://docs.google.com/gview?url={{ urlencode($articleFile) }}&embedded=true"
-                                    class="w-full h-[100vh] rounded-lg shadow-lg" frameborder="0"></iframe>
-                            @else
-                                {{-- Image Viewer --}}
-                                <img src="{{ $articleFile }}" alt="Article Image"
-                                    class="w-full h-auto rounded-lg shadow-lg">
-                            @endif
+                        class="flex flex-col sm:flex-row flex-wrap justify-start gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3">
+                        @if ($product->articleImages->count())
+                            @foreach ($product->articleImages as $articleImage)
+                                <img src="{{ asset('storage/' . $articleImage->path) }}" alt="Article Image"
+                                    class="w-full rounded-lg shadow-lg">
+                            @endforeach
                         @else
                             {{-- Default fallback --}}
                             <img src="{{ asset('assets/img/default-product.png') }}" alt="Default Image"
                                 class="w-full h-auto rounded-lg shadow-lg">
                         @endif
                     </div>
-
                     <!-- Actions -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 mt-10">
@@ -137,7 +124,7 @@
                                             {{ rupiah($p->price) }}</span>
                                     </div>
                                 </div> --}}
-                            <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
+                            <img src="{{ asset('storage/' . optional($p->galleryImages->first())->path ?? 'assets/img/default-product.png') }}"
                                 class="w-full aspect-video lg:aspect-video  object-cover">
 
                             <!-- Hover overlay -->

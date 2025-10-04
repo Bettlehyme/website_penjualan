@@ -45,7 +45,7 @@
                                             {{ rupiah($p->price) }}</span>
                                     </div>
                                 </div> --}}
-                                <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
+                                <img src="{{ asset('storage/' . optional($p->galleryImages->first())->path ?? 'assets/img/default-product.png') }}"
                                     class="w-full aspect-square lg:aspect-square  object-cover">
 
                                 <!-- Hover overlay -->
