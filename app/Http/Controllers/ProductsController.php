@@ -162,7 +162,7 @@ class ProductsController extends Controller
 
             // ✅ Handle new article image upload
             if ($request->hasFile('articleimage')) {
-                // Delete old article images
+                // 1️⃣ Delete old article images first
                 $oldArticleImages = ProductImage::where('product_id', $product->product_id)
                     ->where('type', 'article')
                     ->get();
@@ -172,23 +172,60 @@ class ProductsController extends Controller
                     $oldImg->delete();
                 }
 
+                // 2️⃣ Process new upload
                 $extension = strtolower($request->file('articleimage')->getClientOriginalExtension());
                 $articleImagePaths = [];
 
                 if ($extension === 'pdf') {
-                    throw new \Exception("PDF upload disabled — only images are allowed now.");
-                } else {
-                    // Create a unique filename
-                    $filename = uniqid('article_') . '.' . $extension;
+                    // Save temp PDF in storage
+                    $pdfPath = $request->file('articleimage')->store('temp', 'public');
+                    $pdfFile = Storage::disk('public')->path($pdfPath);
 
-                    // Store with custom unique filename
-                    $articleImagePaths[] = $request->file('articleimage')->storeAs(
-                        'products/article/images',
-                        $filename,
-                        'public'
-                    );
+                    // Output directory for converted images
+                    $outputDir = Storage::disk('public')->path('products/article/images');
+                    if (!file_exists($outputDir)) {
+                        mkdir($outputDir, 0777, true);
+                    }
+
+                    // Use unique prefix to avoid overwriting existing files
+                    $uniquePrefix = uniqid('page_');
+
+                    // Convert all pages of the PDF into images using Poppler
+                    $outputPrefix = $outputDir . '/' . $uniquePrefix;
+                    $command = "pdftoppm -jpeg -r 150 " . escapeshellarg($pdfFile) . " " . escapeshellarg($outputPrefix);
+                    exec($command, $output, $returnCode);
+
+                    if ($returnCode !== 0) {
+                        throw new \Exception("Failed to convert PDF using Poppler (pdftoppm).");
+                    }
+
+                    // Collect generated images (page-1.jpg, page-2.jpg, etc.)
+                    $generatedImages = glob($outputDir . '/' . $uniquePrefix . '-*.jpg');
+                    sort($generatedImages);
+
+                    foreach ($generatedImages as $imagePath) {
+                        $relativePath = 'products/article/images/' . basename($imagePath);
+                        $articleImagePaths[] = $relativePath;
+                    }
+
+                    // Remove temp PDF
+                    Storage::disk('public')->delete($pdfPath);
+                } else {
+                    // Generate unique file name for normal image
+                    $filename = uniqid('article_') . '.' . $extension;
+                    $articleImagePaths[] = $request->file('articleimage')->storeAs('products/article/images', $filename, 'public');
+                }
+
+                // 3️⃣ Save new image paths in database
+                foreach ($articleImagePaths as $path) {
+                    ProductImage::create([
+                        'product_id' => $product->product_id,
+                        'type'       => 'article',
+                        'path'       => $path,
+                    ]);
                 }
             }
+
 
 
             // ✅ Update product main fields
