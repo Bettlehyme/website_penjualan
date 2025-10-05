@@ -45,6 +45,7 @@ class ProductsController extends Controller
 
             if ($request->hasFile('articleimage')) {
                 $extension = strtolower($request->file('articleimage')->getClientOriginalExtension());
+                $articleImagePaths = [];
 
                 if ($extension === 'pdf') {
                     // Save temp PDF in storage
@@ -57,9 +58,12 @@ class ProductsController extends Controller
                         mkdir($outputDir, 0777, true);
                     }
 
+                    // Use unique prefix to avoid overwriting existing files
+                    $uniquePrefix = uniqid('page_');
+
                     // Convert all pages of the PDF into images using Poppler
                     // Example: pdftoppm -jpeg -r 150 input.pdf output/page
-                    $outputPrefix = $outputDir . '/page';
+                    $outputPrefix = $outputDir . '/' . $uniquePrefix;
                     $command = "pdftoppm -jpeg -r 150 " . escapeshellarg($pdfFile) . " " . escapeshellarg($outputPrefix);
                     exec($command, $output, $returnCode);
 
@@ -68,11 +72,10 @@ class ProductsController extends Controller
                     }
 
                     // Collect generated images (page-1.jpg, page-2.jpg, etc.)
-                    $generatedImages = glob($outputDir . '/page-*.jpg');
+                    $generatedImages = glob($outputDir . '/' . $uniquePrefix . '-*.jpg');
                     sort($generatedImages);
 
                     foreach ($generatedImages as $imagePath) {
-                        // Save relative path for database (public storage)
                         $relativePath = 'products/article/images/' . basename($imagePath);
                         $articleImagePaths[] = $relativePath;
                     }
@@ -80,9 +83,12 @@ class ProductsController extends Controller
                     // Remove temp PDF
                     Storage::disk('public')->delete($pdfPath);
                 } else {
-                    $articleImagePaths[] = $request->file('articleimage')->store('products/article/images', 'public');
+                    // Generate unique file name for normal image
+                    $filename = uniqid('article_') . '.' . $extension;
+                    $articleImagePaths[] = $request->file('articleimage')->storeAs('products/article/images', $filename, 'public');
                 }
             }
+
 
             // Create product
             $product = Products::create([
@@ -156,7 +162,7 @@ class ProductsController extends Controller
 
             // ✅ Handle new article image upload
             if ($request->hasFile('articleimage')) {
-                // delete old article images
+                // Delete old article images
                 $oldArticleImages = ProductImage::where('product_id', $product->product_id)
                     ->where('type', 'article')
                     ->get();
@@ -167,12 +173,23 @@ class ProductsController extends Controller
                 }
 
                 $extension = strtolower($request->file('articleimage')->getClientOriginalExtension());
+                $articleImagePaths = [];
+
                 if ($extension === 'pdf') {
                     throw new \Exception("PDF upload disabled — only images are allowed now.");
                 } else {
-                    $articleImagePaths[] = $request->file('articleimage')->store('products/article/images', 'public');
+                    // Create a unique filename
+                    $filename = uniqid('article_') . '.' . $extension;
+
+                    // Store with custom unique filename
+                    $articleImagePaths[] = $request->file('articleimage')->storeAs(
+                        'products/article/images',
+                        $filename,
+                        'public'
+                    );
                 }
             }
+
 
             // ✅ Update product main fields
             $product->update([
