@@ -1,6 +1,11 @@
 @extends('layouts.user')
 
-@section('title', 'Home')
+@section('title', 'Chery Pekanbaru - Model')
+@section('meta_title', 'Daftar Mobil Chery Pekanbaru | Harga & Spesifikasi Terbaru')
+@section('meta_description', 'Lihat daftar mobil Chery terbaru di Pekanbaru: Omoda 5, Tiggo 7 Pro, Tiggo 8 Pro, dan lainnya. Dapatkan penawaran harga terbaik, cicilan ringan, dan layanan aftersales resmi dari Chery Pekanbaru.')
+@section('meta_image', asset('assets/img/chery-logo.jpg'))
+@section('meta_type', 'website')
+
 
 @section('content')
 
@@ -38,18 +43,13 @@
                                             {{ $p->title }}</span>
                                     </div>
                                 </div>
-                                {{-- <div class="absolute top-0 bottom-0 right-0 flex items-end  w-1/2">
-                                    <div
-                                        class="flex justify-center bg-purple-500/70 text-white w-full h-fit font-semibold  py-2 px-4 md:py-3 md:px-3 lg:py-3 lg:px-3 rounded-tl-lg hover:bg-purple-700 transition-colors ">
-                                        <span class="text-xs sm:text-xs md:text-md lg:text-lg ">
-                                            {{ rupiah($p->price) }}</span>
-                                    </div>
-                                </div> --}}
+                               
                                 <img src="{{ asset('storage/' . optional($p->galleryImages->first())->path ?? 'assets/img/default-product.png') }}"
+                                alt="{{$p->title}}"
                                     class="w-full aspect-square lg:aspect-square  object-cover">
 
                                 <!-- Hover overlay -->
-                                <a href="{{ route('product-page', encrypt($p->product_id)) }}"
+                                <a href="{{ route('product-page', $p->title) }}"
                                     class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                     View Details
                                 </a>

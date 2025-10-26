@@ -4,31 +4,50 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {{-- Dynamic Meta --}}
+    <title>@yield('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau')</title>
+    <meta name="description" content="@yield('meta_description', setting('site_description', 'Welcome to ' . 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau'))">
+    <meta name="keywords" content="@yield('meta_keywords', setting('site_keywords', 'car, chery, automobile'))">
+
+    {{-- Open Graph / Facebook --}}
+    <meta property="og:title" content="@yield('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau')">
+    <meta property="og:description" content="@yield('meta_description', setting('site_description', 'Welcome to ' . 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau'))">
+    <meta property="og:type" content="@yield('meta_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="@yield('meta_image', asset('assets/img/chery-logo.jpg'))">
+
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau')">
+    <meta name="twitter:description" content="@yield('meta_description', setting('site_description', 'Welcome to ' . 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau'))">
+    <meta name="twitter:image" content="@yield('meta_image', asset('assets/img/chery-logo.jpg'))">
+
+    {{-- Favicon --}}
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/chery-logo.jpg') }}" />
     <link rel="icon" type="image/png" href="{{ asset('assets/img/chery-logo.jpg') }}" />
-    <title>Chery</title>
 
-    <!-- Fonts and icons -->
+    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Nucleo Icons -->
+    {{-- Icons --}}
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Popper -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-
+    {{-- Vite Assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Main Styling -->
+    {{-- Main Styling --}}
     <link href="{{ asset('assets/css/argon-dashboard-tailwind.css?v=1.0.1') }}" rel="stylesheet" />
 
+    {{-- Extra per-page head --}}
+    @stack('head')
 </head>
+
 
 <body class="m-0 font-sans antialiased font-normal bg-white text-start text-base leading-default text-slate-500">
     <div class="sticky top-0 z-sticky">

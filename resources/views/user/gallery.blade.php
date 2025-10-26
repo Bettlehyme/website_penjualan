@@ -1,6 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Home')
+@section('title', 'Chery Pekanbaru - Gallery')
+@section('meta_title', 'Galeri Mobil Chery Pekanbaru | Tampilan Eksterior & Interior')
+@section('meta_description', 'Jelajahi galeri foto mobil Chery di Pekanbaru. Lihat tampilan mewah dan fitur modern Omoda 5, Tiggo 7 Pro, dan Tiggo 8 Pro. Dealer Chery Pekanbaru siap melayani Anda.')
+@section('meta_image', asset('assets/img/chery-logo.jpg'))
+@section('meta_type', 'website')
 
 @section('content')
 

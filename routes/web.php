@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\SignInController;
 use App\Http\Controllers\BannersController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SiteSettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSideController;
@@ -53,3 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/site-settings', [SiteSettingsController::class, 'update'])->name('site-settings.update');
     Route::resource('/user', UserController::class)->names('user');
 });
+
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap-products.xml', [SitemapController::class, 'products'])->name('sitemap.products');
+Route::get('/sitemap-articles.xml', [SitemapController::class, 'articles'])->name('sitemap.articles');

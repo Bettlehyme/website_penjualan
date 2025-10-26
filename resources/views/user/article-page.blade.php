@@ -1,6 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Home')
+@section('title',  $article->title . ' | ' . setting('site_name'))
+@section('meta_title', $article->title . ' | ' . setting('site_name'))
+@section('meta_description', Str::limit(strip_tags($article->description), 150))
+@section('meta_image', asset('storage/' . $article->image))
+@section('meta_type', 'article')
 
 @section('content')
 
@@ -30,7 +34,7 @@
                     <!-- Image -->
                     <div
                         class=" flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3 ">
-                        <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image"
+                        <img src="{{ asset('storage/' . $article->image) }}" alt="{{$article->title}}"
                             class="w-full h-auto rounded-lg shadow-lg">
 
                     </div>
@@ -76,18 +80,12 @@
                                         {{ $p->title }}</span>
                                 </div>
                             </div>
-                            {{-- <div class="absolute top-0 bottom-0 right-0 flex items-end  w-1/2">
-                                    <div
-                                        class="flex justify-center bg-purple-500/70 text-white w-full h-fit font-semibold  py-2 px-4 md:py-3 md:px-3 lg:py-3 lg:px-3 rounded-tl-lg hover:bg-purple-700 transition-colors ">
-                                        <span class="text-xs sm:text-xs md:text-md lg:text-lg ">
-                                            {{ rupiah($p->price) }}</span>
-                                    </div>
-                                </div> --}}
+                       
                             <img src="{{ asset('storage/' . $p->images[0]->path) }}" alt="{{ $p->title }}"
                                 class="w-full aspect-video lg:aspect-video  object-cover">
 
                             <!-- Hover overlay -->
-                            <a href="{{ route('product-page', encrypt($p->product_id)) }}"
+                            <a href="{{ route('product-page', $p->title) }}"
                                 class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                 View Details
                             </a>
@@ -102,7 +100,7 @@
             </div>
             <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                 @foreach ($articles as $a)
-                    <a href="{{ route('article-page', encrypt($a->id)) }}">
+                    <a href="{{ route('article-page', $a->title) }}">
 
                         <div
                             class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">

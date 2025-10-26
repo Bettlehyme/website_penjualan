@@ -1,6 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Home')
+@section('title', 'Chery Pekanbaru - Articles')
+@section('meta_title', 'Berita & Tips Mobil Chery Pekanbaru | Artikel Otomotif Terbaru')
+@section('meta_description', 'Baca berita, tips, dan update terbaru seputar mobil Chery di Pekanbaru. Dapatkan informasi tentang promo dealer, perawatan mobil, dan teknologi terbaru dari Chery Indonesia.')
+@section('meta_image', asset('assets/img/chery-logo.jpg'))
+@section('meta_type', 'website')
 
 @section('content')
 
@@ -23,7 +27,7 @@
             <div class="flex flex-wrap -mx-3">
                 <div class="w-full max-w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                     @forelse ($articles as $a)
-                       <a href="{{ route('article-page', encrypt($a->id)) }}">
+                       <a href="{{ route('article-page', $a->title) }}">
 
                             <div
                                 class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">

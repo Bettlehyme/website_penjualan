@@ -1,6 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Home')
+@section('title', 'Chery Pekanbaru - Price List')
+@section('meta_title', 'Harga Mobil Chery Pekanbaru 2025 | Harga Omoda & Tiggo Terbaru')
+@section('meta_description', 'Cek harga mobil Chery di Pekanbaru tahun 2025. Dapatkan penawaran spesial untuk Chery Omoda 5, Tiggo 7 Pro, dan Tiggo 8 Pro. Konsultasi gratis untuk pembelian dan test drive di dealer resmi Chery Pekanbaru.')
+@section('meta_image', asset('assets/img/chery-logo.jpg'))
+@section('meta_type', 'website')
 
 @section('content')
 

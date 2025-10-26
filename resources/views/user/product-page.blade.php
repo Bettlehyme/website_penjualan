@@ -1,6 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'Home')
+@section('title', $product->title . ' | ' . setting('site_name'))
+@section('meta_title', $product->title . ' | ' . setting('site_name'))
+@section('meta_description', Str::limit(strip_tags($product->description), 150))
+@section('meta_image', asset('storage/' . $product->image))
+@section('meta_type', 'product')
 
 @section('content')
 
@@ -22,7 +26,7 @@
                             @foreach ($product->galleryImages as $image)
                                 <div slide class="absolute w-full  h-full transition-all duration-500">
                                     <img class="w-full h-full overflow-hidden object-cover cursor-pointer"
-                                        src="{{ asset('storage/' . $image->path) }}" alt="banner image"
+                                        src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->title }}"
                                         onclick="openImageModal(this)" />
                                 </div>
                             @endforeach
@@ -33,12 +37,6 @@
                             </div>
                             <!-- Control buttons -->
                             <div class="absolute bottom-0 w-full right-0 flex z-20">
-                                {{-- <div
-                                    class="bg-purple-500 text-white w-full text-center font-semibold py-2 px-3 sm:px-4 hover:bg-purple-700 transition-colors">
-                                    <span class="text-xl sm:text-4xl md:text-4xl lg:text-3xl">
-                                        {{ rupiah($product->price) }}
-                                    </span>
-                                </div> --}}
                             </div>
                             <button btn-prev
                                 class="absolute z-10 w-10 h-10 left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full fa-solid fa-chevron-left active:scale-110"></button>
@@ -66,7 +64,7 @@
                         class="flex flex-col sm:flex-row flex-wrap justify-start gap-3 sm:gap-4 col-span-1 sm:col-span-2 lg:col-span-3">
                         @if ($product->articleImages->count())
                             @foreach ($product->articleImages as $articleImage)
-                                <img src="{{ asset('storage/' . $articleImage->path) }}" alt="Article Image"
+                                <img src="{{ asset('storage/' . $articleImage->path) }}" alt="{{ $product->title }}"
                                     class="w-full rounded-lg shadow-lg">
                             @endforeach
                         @else
@@ -125,10 +123,11 @@
                                     </div>
                                 </div> --}}
                             <img src="{{ asset('storage/' . optional($p->galleryImages->first())->path ?? 'assets/img/default-product.png') }}"
+                            alt="{{$p->title}}"
                                 class="w-full aspect-video lg:aspect-video  object-cover">
 
                             <!-- Hover overlay -->
-                            <a href="{{ route('product-page', encrypt($p->product_id)) }}"
+                            <a href="{{ route('product-page', $p->title) }}"
                                 class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                 View Details
                             </a>
@@ -143,7 +142,7 @@
             </div>
             <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                 @foreach ($articles as $a)
-                    <a href="{{ route('article-page', encrypt($a->id)) }}">
+                    <a href="{{ route('article-page', $a->title) }}">
 
                         <div
                             class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">

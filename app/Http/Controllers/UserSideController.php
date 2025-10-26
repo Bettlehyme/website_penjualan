@@ -68,7 +68,7 @@ class UserSideController extends Controller
         $products = Products::with('galleryImages')->limit(4)->get();
         $articles = Article::limit(4)->get();
         $product = Products::with(['articleImages', 'galleryImages'])
-            ->where('product_id', decrypt($id))
+            ->where('title', $id)
             ->firstOrFail();
 
 
@@ -79,7 +79,7 @@ class UserSideController extends Controller
     {
         $products = Products::with('galleryImages')->limit(4)->get();
         $articles = Article::limit(4)->get();
-        $article = Article::where('id', decrypt($id))
+        $article = Article::where('title', $id)
             ->firstOrFail();
 
         return view('user.article-page', ['article' => $article, 'products' => $products, 'articles' => $articles]);
