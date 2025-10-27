@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 @foreach($items as $product)
     <url>
-        <loc>{{ url('/product-page/' . $product->title) }}</loc>
+        <loc>{{ url(route('product-page', $product->title)) }}</loc>
         <lastmod>{{ $product->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
