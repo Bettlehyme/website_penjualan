@@ -159,7 +159,7 @@
                 <div id="productGrid"
                     class="grid grid-cols-2 h-100 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto">
                     @foreach ($products as $p)
-                        <div onclick="selectProduct('/product-page/{{ encrypt($p->product_id) }}', '{{ $p->title }}')"
+                        <div onclick="selectProduct('{{route('product-page', $p->title)}}', '{{ $p->title }}')"
                             class="cursor-pointer border p-2 rounded hover:bg-gray-100 aspect-square">
                             <img src="{{ asset('storage/' . $p->images[0]->path) }}"
                                 class="w-full aspect-square object-cover rounded">

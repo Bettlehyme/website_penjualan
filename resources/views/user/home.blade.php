@@ -2,7 +2,9 @@
 
 @section('title', 'Chery Pekanbaru')
 @section('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau')
-@section('meta_description', 'Temukan mobil Chery terbaru di Pekanbaru — mulai dari Omoda 5, Tiggo 7 Pro, hingga Tiggo 8 Pro. Dealer resmi Chery Pekanbaru siap melayani test drive, pembelian tunai, dan kredit mobil Chery dengan promo menarik setiap bulan.')
+@section('meta_description', 'Temukan mobil Chery terbaru di Pekanbaru — mulai dari Omoda 5, Tiggo 7 Pro, hingga Tiggo 8
+    Pro. Dealer resmi Chery Pekanbaru siap melayani test drive, pembelian tunai, dan kredit mobil Chery dengan promo menarik
+    setiap bulan.')
 @section('meta_image', asset('assets/img/chery-logo.jpg'))
 @section('meta_type', 'website')
 
@@ -22,9 +24,10 @@
                                     <div slide class="absolute w-full h-full transition-all duration-500">
                                         <a href="{{ $banner->link ?? '#' }}">
                                             <img class="object-cover h-full w-full"
-                                                src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"  />
+                                                src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" />
                                         </a>
-                                        <div class="block text-start ml-12 right-10 lg:right-20 bottom-0 absolute pt-5 pb-5 text-white">
+                                        <div
+                                            class="block text-start ml-12 right-10 lg:right-20 bottom-0 absolute pt-5 pb-5 text-white">
                                             @if ($banner->icon)
                                                 <div
                                                     class="inline-block w-8 h-8 mb-4 text-center text-black bg-white rounded-lg">
@@ -69,8 +72,9 @@
                                 Anda
                             </h3>
                             <p class="text-lg text-gray-600 mb-6 text-center">
-                                Explore our wide range of cars that suit every lifestyle and budget.
-                                From luxury rides to reliable daily drivers, we’ve got it all.
+                                Temukan mobil Chery terbaru di Pekanbaru — mulai dari Omoda 5, Tiggo 7 Pro, hingga Tiggo 8
+                                Pro. Dealer resmi Chery Pekanbaru siap melayani test drive, pembelian tunai, dan kredit
+                                mobil Chery dengan promo menarik setiap bulan.
                             </p>
                             {{-- <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20product"
                                 class="px-6 py-3 bg-purple-500 text-white rounded-xl shadow-md hover:bg-purple-700 transition w-full text-center md:w-auto lg:w-auto">
