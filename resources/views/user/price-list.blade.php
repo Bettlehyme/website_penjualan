@@ -16,7 +16,7 @@
             <div class="flex flex-wrap -mx-3">
                 <div class="w-full max-w-full">
                     <img src="{{ setting('price_list') ? asset('storage/' . setting('price_list')) : 'https://via.placeholder.com/100' }}"
-                alt="Logo" class="w-full mr-2 object-contain">
+                alt="Price List Image" class="w-full mr-2 object-contain">
                 </div>
             </div>
 

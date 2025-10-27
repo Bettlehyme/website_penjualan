@@ -22,9 +22,9 @@
                             <div slider class="relative w-full h-full overflow-hidden rounded-2xl">
                                 @foreach ($activeBanners as $banner)
                                     <div slide class="absolute w-full h-full transition-all duration-500">
-                                        <a href="{{ $banner->link ?? '#' }}">
+                                        <a href="{{ $banner->link ?? '#' }}" aria-label="{{$banner->title}}">
                                             <img class="object-cover h-full w-full"
-                                                src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" />
+                                                src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"/>
                                         </a>
                                         <div
                                             class="block text-start ml-12 right-10 lg:right-20 bottom-0 absolute pt-5 pb-5 text-white">
@@ -60,12 +60,7 @@
                 </div>
                 <div class="w-full flex items-center mt-10">
                     <div class="container mx-auto py-10 px-6  lg:px-16 grid grid-cols-1 lg:grid-cols-1 gap-8 h-full">
-                        <!-- Left Side (Image) -->
-                        {{-- <div class="flex items-center justify-center h-full overflow-hidden">
-                            <img src="{{ asset('assets/img/home-image-1.jpeg') }}" alt="Luxury Car"
-                                class="w-full h-full object-cover aspect-[16/9] md:aspect-[8/3] lg:aspect-[8/3] rounded-2xl shadow-lg">
-                        </div> --}}
-
+                      
                         <!-- Right Side (Text) -->
                         <div class="flex flex-col justify-center items-center  md:items-start lg:items-start h-full">
                             <h3 class=" font-bold text-gray-800 mb-4 text-2xl md:text-3xl lg:text-4xl">Temukan Mobil Impian
@@ -76,10 +71,7 @@
                                 Pro. Dealer resmi Chery Pekanbaru siap melayani test drive, pembelian tunai, dan kredit
                                 mobil Chery dengan promo menarik setiap bulan.
                             </p>
-                            {{-- <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20product"
-                                class="px-6 py-3 bg-purple-500 text-white rounded-xl shadow-md hover:bg-purple-700 transition w-full text-center md:w-auto lg:w-auto">
-                                Contact Us on WhatsApp
-                            </a> --}}
+                           
                         </div>
                     </div>
                 </div>
@@ -120,7 +112,7 @@
 
 
                                 <!-- Hover overlay -->
-                                <a href="{{ route('product-page', $p->title) }}"
+                                <a href="{{ route('product-page', $p->title) }}" aria-label="{{$p->title}}"
                                     class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                     View Details
                                 </a>
@@ -129,7 +121,7 @@
                     @endforeach
                 </div>
                 <div class="w-full flex justify-center mt-10">
-                    <a href="{{ route('products-catalogue') }}"
+                    <a href="{{ route('products-catalogue') }}" aria-label="Model"
                         class="inline-block px-20 md:px-40 lg:px-40  py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-bold 
             hover:bg-purple-500 hover:border-gray-400 
             transition-all ease-in hover:-translate-y-px hover:shadow-xl">
@@ -147,7 +139,7 @@
 
                 <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                     @foreach ($articles as $a)
-                        <a href="{{ route('article-page', $a->title) }}">
+                        <a href="{{ route('article-page', $a->title) }}" aria-label="{{$a->title}}">
 
                             <div
                                 class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
@@ -175,7 +167,7 @@
                     @endforeach
                 </div>
                 <div class="w-full flex justify-center mt-10">
-                    <a href="{{ route('articles-list') }}"
+                    <a href="{{ route('articles-list') }}" aria-label="Artikel"
                         class="inline-block px-20 md:px-40 lg:px-40  py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-bold 
             hover:bg-purple-500 hover:border-gray-400 
             transition-all ease-in hover:-translate-y-px hover:shadow-xl">
@@ -206,7 +198,7 @@
                 class="fixed flex inset-0 w-[100vw] h-[100vh] overflow-hidden bg-black/50 hidden items-center justify-center z-[999] transition-opacity duration-300">
                 <div id="imageModalCard"
                     class="relative max-w-3xl w-full transform scale-95 opacity-0 transition-all duration-300">
-                    <img id="modalImage" src="" class="max-h-[80vh] mx-auto rounded-lg shadow-lg">
+                    <img id="modalImage" src="" class="max-h-[80vh] mx-auto rounded-lg shadow-lg" alt="Modal Image">
 
                 </div>
             </div>

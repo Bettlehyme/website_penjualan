@@ -47,6 +47,7 @@
                             Share
                         </button>
                         <a href="https://wa.me/085271744687?text=I'm%20interested%20in%20your%20article"
+                        aria-label="Nomor Whatsapp Sales Chery"
                             class="bg-purple-500 text-white px-4 py-2 rounded-lg transition text-center transition-all ease-in hover:-translate-y-px hover:shadow-xl">
                             <i class="fa-brands fa-whatsapp mr-2"></i>
                             Konsultasi
@@ -85,7 +86,7 @@
                                 class="w-full aspect-video lg:aspect-video  object-cover">
 
                             <!-- Hover overlay -->
-                            <a href="{{ route('product-page', $p->title) }}"
+                            <a href="{{ route('product-page', $p->title) }}" aria-label="{{$p->title}}"
                                 class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                 View Details
                             </a>
@@ -100,7 +101,7 @@
             </div>
             <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                 @foreach ($articles as $a)
-                    <a href="{{ route('article-page', $a->title) }}">
+                    <a href="{{ route('article-page', $a->title) }}" aria-label="{{$a->title}}">
 
                         <div
                             class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">

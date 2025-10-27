@@ -44,7 +44,7 @@
                 class="fixed flex inset-0 w-[100vw] h-[100vh] overflow-hidden bg-black/50 hidden items-center justify-center z-[999] transition-opacity duration-300">
                 <div id="imageModalCard"
                     class="relative max-w-3xl w-full transform scale-95 opacity-0 transition-all duration-300">
-                    <img id="modalImage" src="" class="max-h-[80vh] mx-auto rounded-lg shadow-lg">
+                    <img id="modalImage" src="" class="max-h-[80vh] mx-auto rounded-lg shadow-lg" alt="Modal Image">
                    
                 </div>
             </div>

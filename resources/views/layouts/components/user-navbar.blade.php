@@ -24,68 +24,72 @@
 
         <div navbar-menu
             class="flex relative w-12/12 h-fit pt-1 justify-between transition-all duration-500 ease lg-max:max-h-0 basis-full flex-col lg:flex-row lg:basis-auto 
-           overflow-hidden md:overflow-visible">
-            <ul class="flex relative flex-col w-full pl-0  mb-0 list-none lg:flex-row ">
-                <li>
-                    <a href="{{route('home')}}"
+    overflow-hidden md:overflow-visible"
+            role="navigation" aria-label="Main navigation">
+            <ul class="flex relative flex-col w-full pl-0 mb-0 list-none lg:flex-row" role="menubar"
+                aria-label="Main menu">
+                <li role="none">
+                    <a href="{{ route('home') }}" role="menuitem" aria-label="Go to Home page"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
-           transition-all ease-in border-0 rounded-lg  cursor-pointer 
-           text-sm tracking-tight-rem uppercase 
-           hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
-           after:h-[2px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
+                transition-all ease-in border-0 rounded-lg cursor-pointer 
+                text-sm tracking-tight-rem uppercase 
+                hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
+                after:h-[2px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
                         Home
                     </a>
                 </li>
-                <li>
-                    <a href="{{route('price-list')}}"
+                <li role="none">
+                    <a href="{{ route('price-list') }}" role="menuitem" aria-label="View car price lists"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
-           transition-all ease-in border-0 rounded-lg  cursor-pointer 
-           text-sm tracking-tight-rem uppercase 
-           hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
-           after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
+                transition-all ease-in border-0 rounded-lg cursor-pointer 
+                text-sm tracking-tight-rem uppercase 
+                hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
+                after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
                         Price Lists
                     </a>
                 </li>
-                <li>
-                    <a href="{{route('articles-list')}}"
+                <li role="none">
+                    <a href="{{ route('articles-list') }}" role="menuitem" aria-label="View promotions and articles"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
-           transition-all ease-in border-0 rounded-lg  cursor-pointer 
-           text-sm tracking-tight-rem uppercase 
-           hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
-           after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
+                transition-all ease-in border-0 rounded-lg cursor-pointer 
+                text-sm tracking-tight-rem uppercase 
+                hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
+                after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
                         Promo & Artikel
                     </a>
                 </li>
-                <li class="relative">
-                    <a href="{{route('products-catalogue')}}" id="dropdownToggle"
+                <li class="relative" role="none">
+                    <a href="{{ route('products-catalogue') }}" id="dropdownToggle" role="menuitem" aria-haspopup="true"
+                        aria-expanded="false" aria-controls="model-submenu" aria-label="View car models"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
-     transition-all ease-in border-0 rounded-lg cursor-pointer 
-     text-sm tracking-tight-rem uppercase 
-     hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
-     after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
+                transition-all ease-in border-0 rounded-lg cursor-pointer 
+                text-sm tracking-tight-rem uppercase 
+                hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
+                after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
                         Model
                     </a>
-
-
                 </li>
-                <li>
-                    <a href="{{route('gallery-list')}}"
+                <li role="none">
+                    <a href="{{ route('gallery-list') }}" role="menuitem" aria-label="View car gallery"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
-           transition-all ease-in border-0 rounded-lg cursor-pointer 
-           text-sm tracking-tight-rem uppercase 
-           hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
-           after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
+                transition-all ease-in border-0 rounded-lg cursor-pointer 
+                text-sm tracking-tight-rem uppercase 
+                hover:text-purple-500 after:content-[''] after:absolute after:left-0 after:bottom-0 
+                after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300 hover:after:w-full">
                         Galeri
                     </a>
                 </li>
             </ul>
-            <ul class="flex flex-col w-80 pl-0 mb-0 sm:flex-row lg:flex-row">
-                <li>
+
+            <ul class="flex flex-col w-80 pl-0 mb-0 sm:flex-row lg:flex-row" role="menubar" aria-label="Contact menu">
+                <li role="none">
                     <a href="https://wa.me/{{ setting('whatsapp_number') }}?text=Hallo,%20saya%20ingin%20bertanya"
-                        target="_blank"
+                        target="_blank" role="menuitem" aria-label="Chat via WhatsApp" aria-describedby="whatsapp-desc"
                         class="inline-block px-8 py-2 mb-0 mr-1 font-semibold leading-normal text-center text-white align-middle transition-all ease-in bg-purple-500 border-0 rounded-lg shadow-md cursor-pointer hover:-translate-y-px hover:shadow-xs active:opacity-85 text-sm tracking-tight-rem">
-                        <i class="fa-brands fa-whatsapp mr-2"></i>
-                        Contact Whatsapp</a>
+                        <i class="fa-brands fa-whatsapp mr-2" aria-hidden="true"></i>
+                        Contact Whatsapp
+                    </a>
+                    <span id="whatsapp-desc" class="sr-only">Opens WhatsApp chat in a new window</span>
                 </li>
             </ul>
         </div>
@@ -102,10 +106,10 @@
                 // Match by pathname
                 if (link.getAttribute("href") === currentPath) {
                     link.classList.add("active-link");
-                   
+
 
                 }
-                 console.log(link.getAttribute("href"));
+                console.log(link.getAttribute("href"));
             });
 
             parent.addEventListener("mouseenter", () => {

@@ -49,7 +49,7 @@
                                     class="w-full aspect-square lg:aspect-square  object-cover">
 
                                 <!-- Hover overlay -->
-                                <a href="{{ route('product-page', $p->title) }}"
+                                <a href="{{ route('product-page', $p->title) }}" aria-label="{{$p->title}}"
                                     class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                     View Details
                                 </a>

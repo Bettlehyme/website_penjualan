@@ -1,2 +1,12 @@
 User-agent: *
-Disallow:
+Allow: /
+
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /sign-in
+Disallow: /user/
+Disallow: /storage/
+
+Sitemap: https://mobilcherypekanbaru.com/sitemap.xml
+Sitemap: https://mobilcherypekanbaru.com/sitemap-products.xml
+Sitemap: https://mobilcherypekanbaru.com/sitemap-articles.xml
