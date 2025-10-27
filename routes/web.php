@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserSideController::class, 'indexHome'])->name('home');
-Route::get('/product-page/{id}', [UserSideController::class, 'productPage'])->name('product-page');
-Route::get('/products-catalogue', [UserSideController::class, 'indexProducts'])->name('products-catalogue');
-Route::get('/article-list', [UserSideController::class, 'indexArticle'])->name('articles-list');
-Route::get('/article-page/{id}', [UserSideController::class, 'articlePage'])->name('article-page');
-Route::get('/price-list', [UserSideController::class, 'indexPriceList'])->name('price-list');
-Route::get('/gallery-list', [UserSideController::class, 'indexGallery'])->name('gallery-list');
+Route::get('/model/{id}', [UserSideController::class, 'productPage'])->name('product-page');
+Route::get('/model', [UserSideController::class, 'indexProducts'])->name('products-catalogue');
+Route::get('/artikel', [UserSideController::class, 'indexArticle'])->name('articles-list');
+Route::get('/artikel/{id}', [UserSideController::class, 'articlePage'])->name('article-page');
+Route::get('/price list', [UserSideController::class, 'indexPriceList'])->name('price-list');
+Route::get('/galeri', [UserSideController::class, 'indexGallery'])->name('gallery-list');
 
 Route::get('/view-file/{path}', function ($path) {
     $file = storage_path('app/public/' . $path);

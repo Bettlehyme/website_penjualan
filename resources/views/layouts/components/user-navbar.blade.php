@@ -27,7 +27,7 @@
            overflow-hidden md:overflow-visible">
             <ul class="flex relative flex-col w-full pl-0  mb-0 list-none lg:flex-row ">
                 <li>
-                    <a href="/"
+                    <a href="{{route('home')}}"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg  cursor-pointer 
            text-sm tracking-tight-rem uppercase 
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/price-list"
+                    <a href="{{route('price-list')}}"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg  cursor-pointer 
            text-sm tracking-tight-rem uppercase 
@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/article-list"
+                    <a href="{{route('articles-list')}}"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg  cursor-pointer 
            text-sm tracking-tight-rem uppercase 
@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="relative">
-                    <a href="/products-catalogue" id="dropdownToggle"
+                    <a href="{{route('products-catalogue')}}" id="dropdownToggle"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
      transition-all ease-in border-0 rounded-lg cursor-pointer 
      text-sm tracking-tight-rem uppercase 
@@ -69,7 +69,7 @@
 
                 </li>
                 <li>
-                    <a href="/gallery-list"
+                    <a href="{{route('gallery-list')}}"
                         class="relative inline-block px-8 py-2 mb-0 mr-1 font-bold leading-normal text-center align-middle 
            transition-all ease-in border-0 rounded-lg cursor-pointer 
            text-sm tracking-tight-rem uppercase 
