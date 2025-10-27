@@ -9,7 +9,7 @@
             <div class=" px-3 mt-1 text-center flex-0">
                 <div class="max-w-sm mx-auto bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <!-- Image -->
-                    <img class="w-full h-20 aspect-[6/5] object-cover"
+                    <img class="w-full h-20 aspect-[6/5] object-cover" alt="{{ setting('sales_name') }}"
                         src="{{ setting('sales_photo') ? asset('storage/' . setting('sales_photo')) : 'https://via.placeholder.com/100' }}" alt="Profile Image">
 
                     <!-- Content -->
@@ -25,25 +25,25 @@
                         <!-- Social Buttons -->
                         <div class="mt-4 flex justify-center gap-3">
                             @if (setting('twitter') != '')
-                                <a href="{{ setting('twitter') }}" target="_blank"
+                                <a href="{{ setting('twitter') }}" target="_blank" aria-label="Twitter"
                                     class="px-4 py-2 w-15 rounded-full bg-purple-500 text-white text-sm font-medium hover:bg-purple-600 transition">
                                     <i class="fab fa-twitter"></i>
                                 </a>
                             @endif
                             @if (setting('instagram') != '')
-                                <a href="{{ setting('instagram') }}" target="_blank"
+                                <a href="{{ setting('instagram') }}" target="_blank" aria-label="Instagram"
                                     class="px-4 py-2 w-15 rounded-full bg-purple-500 text-white text-sm font-medium hover:bg-purple-600 transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                             @endif
                             @if (setting('youtube') != '')
-                                <a href="{{ setting('youtube') }}" target="_blank"
+                                <a href="{{ setting('youtube') }}" target="_blank" aria-label="YouTube"
                                     class="px-4 py-2 w-15 rounded-full bg-purple-500 text-white text-sm font-medium hover:bg-purple-600 transition">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                             @endif
                             @if (setting('facebook') != '')
-                                <a href="{{ setting('facebook') }}" target="_blank"
+                                <a href="{{ setting('facebook') }}" target="_blank" aria-label="Facebook"
                                     class="px-4 py-2 w-15 rounded-full bg-purple-500 text-white text-sm font-medium hover:bg-purple-600 transition">
                                     <i class="fab fa-facebook"></i>
                                 </a>
@@ -58,7 +58,7 @@
         </div>
         <div class="flex flex-wrap -mx-3">
             <div class="w-12/12  max-w-full px-3 mx-auto mt-1 text-center flex-0">
-                <img class="w-full" src="{{ asset('/assets/img/finance-pekanbaru.png') }}" />
+                <img class="w-full" src="{{ asset('/assets/img/finance-pekanbaru.png') }}" aria-label="Finance Pekanbaru" />
             </div>
         </div>
         <div class="flex flex-wrap -mx-3">

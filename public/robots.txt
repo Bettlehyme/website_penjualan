@@ -1,12 +1,39 @@
+# robots.txt for https://mobilcherypekanbaru.com/
+# Purpose: SEO optimization for Chery car dealership in Pekanbaru, Indonesia
+# Last updated: 2025-10-27
+
 User-agent: *
+# Allow main content for indexing
 Allow: /
 
+# Block non-public or duplicate content
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /sign-in
+Disallow: /sign-out
 Disallow: /user/
 Disallow: /storage/
+Disallow: /vendor/
+Disallow: /view-file/
+Disallow: /site-settings/
 
+# --- Sitemaps ---
 Sitemap: https://mobilcherypekanbaru.com/sitemap.xml
 Sitemap: https://mobilcherypekanbaru.com/sitemap-products.xml
 Sitemap: https://mobilcherypekanbaru.com/sitemap-articles.xml
+
+# --- Regional Focus ---
+# These hints help search engines geotarget your website to Indonesia
+Host: mobilcherypekanbaru.com
+# Note: 'Host' is respected by Yandex/Bing; Google uses Search Console for geotargeting
+
+# --- Crawling Guidance ---
+# Allow crawlers to use reasonable crawl frequency
+Crawl-delay: 5
+
+# --- Notes ---
+# ✅ Make sure your <head> includes proper meta tags:
+# <meta name="robots" content="index, follow">
+# <meta name="geo.region" content="ID-RI">
+# <meta name="geo.placename" content="Pekanbaru, Riau, Indonesia">
+# <meta name="language" content="id">
