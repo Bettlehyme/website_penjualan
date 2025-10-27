@@ -2,7 +2,8 @@
 
 @section('title', 'Chery Pekanbaru')
 @section('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau')
-@section('meta_description', 'Temukan mobil Chery terbaru di Pekanbaru — mulai dari Omoda 5, Tiggo 7 Pro, hingga Tiggo 8
+@section('meta_description',
+    'Temukan mobil Chery terbaru di Pekanbaru — mulai dari Omoda 5, Tiggo 7 Pro, hingga Tiggo 8
     Pro. Dealer resmi Chery Pekanbaru siap melayani test drive, pembelian tunai, dan kredit mobil Chery dengan promo menarik
     setiap bulan.')
 @section('meta_image', asset('assets/img/chery-logo.jpg'))
@@ -22,9 +23,9 @@
                             <div slider class="relative w-full h-full overflow-hidden rounded-2xl">
                                 @foreach ($activeBanners as $banner)
                                     <div slide class="absolute w-full h-full transition-all duration-500">
-                                        <a href="{{ $banner->link ?? '#' }}" aria-label="{{$banner->title}}">
+                                        <a href="{{ $banner->link ?? '#' }}" aria-label="{{ $banner->title }}">
                                             <img class="object-cover h-full w-full"
-                                                src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"/>
+                                                src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" />
                                         </a>
                                         <div
                                             class="block text-start ml-12 right-10 lg:right-20 bottom-0 absolute pt-5 pb-5 text-white">
@@ -45,9 +46,15 @@
 
                                 <!-- Control buttons -->
                                 <button btn-next
-                                    class="absolute z-10 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 fa-solid fa-chevron-right active:scale-110 top-6 right-4"></button>
+                                    class="absolute z-10 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 fa-solid fa-chevron-right active:scale-110 top-6 right-4"
+                                    aria-label="Next slide">
+                                </button>
+
                                 <button btn-prev
-                                    class="absolute z-10 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 fa-solid fa-chevron-left active:scale-110 top-6 right-16"></button>
+                                    class="absolute z-10 w-10 h-10 p-2 text-lg text-white border-none opacity-50 cursor-pointer hover:opacity-100 fa-solid fa-chevron-left active:scale-110 top-6 right-16"
+                                    aria-label="Previous slide">
+                                </button>
+
                             </div>
                         @else
                             <!-- Fallback if no active banners -->
@@ -60,7 +67,7 @@
                 </div>
                 <div class="w-full flex items-center mt-10">
                     <div class="container mx-auto py-10 px-6  lg:px-16 grid grid-cols-1 lg:grid-cols-1 gap-8 h-full">
-                      
+
                         <!-- Right Side (Text) -->
                         <div class="flex flex-col justify-center items-center  md:items-start lg:items-start h-full">
                             <h3 class=" font-bold text-gray-800 mb-4 text-2xl md:text-3xl lg:text-4xl">Temukan Mobil Impian
@@ -71,7 +78,7 @@
                                 Pro. Dealer resmi Chery Pekanbaru siap melayani test drive, pembelian tunai, dan kredit
                                 mobil Chery dengan promo menarik setiap bulan.
                             </p>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -112,7 +119,7 @@
 
 
                                 <!-- Hover overlay -->
-                                <a href="{{ route('product-page', $p->title) }}" aria-label="{{$p->title}}"
+                                <a href="{{ route('product-page', $p->title) }}" aria-label="{{ $p->title }}"
                                     class="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                                     View Details
                                 </a>
@@ -139,7 +146,7 @@
 
                 <div class="w-full max-w-full grid grid-cols-1 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
                     @foreach ($articles as $a)
-                        <a href="{{ route('article-page', $a->title) }}" aria-label="{{$a->title}}">
+                        <a href="{{ route('article-page', $a->title) }}" aria-label="{{ $a->title }}">
 
                             <div
                                 class="bg-white rounded-md shadow hover:shadow-lg overflow-hidden flex flex-col shadow-lg transition-all ease-in hover:-translate-y-px hover:shadow-xl">
