@@ -3,7 +3,7 @@
 @section('title', $product->title . ' | ' . setting('site_name'))
 @section('meta_title', $product->title . ' | ' . setting('site_name'))
 @section('meta_description', Str::limit(strip_tags($product->description), 150))
-@section('meta_image', asset('storage/' . $product->image))
+@section('meta_image', asset('storage/' . $product->galleryImages[0]->path ??'assets/img/chery-logo.jpg'))
 @section('meta_type', 'product')
 
 @section('content')
