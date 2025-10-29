@@ -22,6 +22,7 @@
 
     <!-- Main Styling -->
     <link href="{{ asset('assets/css/argon-dashboard-tailwind.css?v=1.0.1') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
 
@@ -74,7 +75,9 @@
                         <div
                             class="absolute top-0 right-0 flex-col justify-center hidden w-6/12 h-full max-w-full px-3 pr-0 my-auto text-center flex-0 lg:flex">
                             <div class="relative flex flex-col justify-center h-full bg-cover bg-center px-24 m-4 overflow-hidden rounded-xl"
-                                style="background-image: url('{{ asset('assets/img/signin-image.jpeg') }}')">
+                                {{-- style="background-image: url('{{ asset('assets/img/signin-image.jpeg') }}')"> --}}
+                                style="background-image: url('{{ asset('assets/img/carausel-1.jpg') }}')">
+
                                 <span
                                     class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-to-tl from-purple-500 to-purple-600 opacity-60"></span>
                                 <h4 class="z-20 mt-12 font-bold text-white">"Cars Sales is now Fun"</h4>

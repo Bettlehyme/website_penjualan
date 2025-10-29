@@ -24,6 +24,7 @@
     <!-- Main Styling -->
     <link href="./assets/css/argon-dashboard-tailwind.css?v=4.0.1" rel="stylesheet" />
     <script src="./assets/js/sidenav-burger.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
 
