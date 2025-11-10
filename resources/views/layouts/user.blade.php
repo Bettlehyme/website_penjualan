@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     {{-- Dynamic Meta --}}
-    <title>@yield('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau')</title>
+    <title>@yield('meta_title', 'Chery Pekanbaru | Dealer Resmi Mobil Chery Pekanbaru di Riau')</title>
     <meta name="description" content="@yield('meta_description', setting('site_description', 'Welcome to ' . 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau'))">
     <meta name="keywords" content="@yield('meta_keywords', setting('site_keywords', 'car, chery, automobile'))">
 
@@ -15,7 +15,7 @@
     <meta property="og:description" content="@yield('meta_description', setting('site_description', 'Welcome to ' . 'Chery Pekanbaru | Dealer Resmi Mobil Chery di Riau'))">
     <meta property="og:type" content="@yield('meta_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="@yield('meta_image', asset('assets/img/chery-logo.jpg'))">
+    <meta property="og:image" content="{{ asset('assets/img/chery-logo.png') }}">
 
     {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
@@ -24,8 +24,8 @@
     <meta name="twitter:image" content="@yield('meta_image', asset('assets/img/chery-logo.jpg'))">
 
     {{-- Favicon --}}
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/chery-logo.jpg') }}" />
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/chery-logo.jpg') }}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('apple-touch-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}" />
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
